@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1615129056 source:d:\ltnc\projectgame\bomman\main.cpp
+	<iostream>
+	"commonfunc.h"
+	"BaseObject.h"
+
+1615124953 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
+	<iostream>
+	"commonfunc.h"
+
+1615129346 d:\ltnc\projectgame\bomman\commonfunc.h
+	<windows.h>
+	<string>
+	<SDL.h>
+	<SDL_image.h>
+
+1615126745 source:d:\ltnc\projectgame\bomman\baseobject.cpp
+	<iostream>
+	"BaseObject.h"
+
+1615126745 d:\ltnc\projectgame\bomman\baseobject.h
+	"commonfunc.h"
+
