@@ -1,6 +1,8 @@
 #include <iostream>
 #include "commonfunc.h"
 #include "BaseObject.h"
+#include "map.h"
+#include "PlayerObject.h"
 using namespace std;
 BaseObject g_background;
 bool InitData()
@@ -42,7 +44,7 @@ bool InitData()
 }
 bool LoadBackGround()
 {
-    bool ret = g_background.LoadImg("img//ClassicBombMap.png", g_screen);
+    bool ret = g_background.LoadImg("img//background.png", g_screen);
     if(ret == false)
     {
         return false;
@@ -70,11 +72,21 @@ int main(int argc, char* argv[])
         cout << "INITDATA False" << endl;
         return -1;
     }
+
     if(LoadBackGround()==false)
     {
         cout << "LoadBackGround False" << endl;
         return -1;
     }
+
+    GameMap game_map;
+    game_map.LoadMap("map//map.txt");
+    game_map.LoadTiles(g_screen);
+
+    PlayerObject p_player;
+    p_player.LoadImg("img//player_down.png",g_screen);
+    p_player.set_clips();
+
 
     bool is_quit = false;
     while(!is_quit)
@@ -85,12 +97,16 @@ int main(int argc, char* argv[])
             {
                 is_quit = true;
             }
+            p_player.HandleInputAction(g_event,g_screen);
         }
 
         SDL_SetRenderDrawColor(g_screen,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
         SDL_RenderClear(g_screen);
 
         g_background.Render(g_screen, NULL);
+        game_map.DrawMap(g_screen);
+
+        p_player.Show(g_screen);
 
         SDL_RenderPresent(g_screen);
     }

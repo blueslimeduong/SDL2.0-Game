@@ -1,14 +1,16 @@
 # depslib dependency file v1.0
-1615129056 source:d:\ltnc\projectgame\bomman\main.cpp
+1615471818 source:d:\ltnc\projectgame\bomman\main.cpp
 	<iostream>
 	"commonfunc.h"
 	"BaseObject.h"
+	"map.h"
+	"PlayerObject.h"
 
 1615124953 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
 	<iostream>
 	"commonfunc.h"
 
-1615129346 d:\ltnc\projectgame\bomman\commonfunc.h
+1615467359 d:\ltnc\projectgame\bomman\commonfunc.h
 	<windows.h>
 	<string>
 	<SDL.h>
@@ -18,6 +20,22 @@
 	<iostream>
 	"BaseObject.h"
 
-1615126745 d:\ltnc\projectgame\bomman\baseobject.h
+1615467970 d:\ltnc\projectgame\bomman\baseobject.h
 	"commonfunc.h"
+
+1615351505 source:d:\ltnc\projectgame\bomman\map.cpp
+	"map.h"
+	<bits/stdc++.h>
+	<fstream>
+
+1615452978 d:\ltnc\projectgame\bomman\map.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1615477694 d:\ltnc\projectgame\bomman\playerobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1615478101 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+	"PlayerObject.h"
 

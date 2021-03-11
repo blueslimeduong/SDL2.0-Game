@@ -32,11 +32,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="BaseObject.cpp" />
+		<Unit filename="BaseObject.h" />
 		<Unit filename="commonfunc.cpp" />
 		<Unit filename="commonfunc.h" />
-		<Unit filename="draw.h" />
-		<Unit filename="head.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="map.cpp" />
+		<Unit filename="map.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
