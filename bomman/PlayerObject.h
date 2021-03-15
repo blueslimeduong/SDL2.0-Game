@@ -5,6 +5,7 @@
 #include "BaseObject.h"
 using namespace std;
 const int Frame = 3;
+const int PLAYER_SPEED = 5;
 class PlayerObject : public BaseObject
 {
 public:
@@ -23,6 +24,9 @@ public:
     void Show(SDL_Renderer* des);
     void HandleInputAction(SDL_Event events, SDL_Renderer* screen);
     void set_clips();
+
+    void DoPlayer(Map& map_data);
+    void CheckToMap(Map& map_data);
 private:
     float x_val_;
     float y_val_;

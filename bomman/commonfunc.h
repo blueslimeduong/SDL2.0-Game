@@ -12,6 +12,7 @@ static SDL_Event g_event;
 
 
 //Screen
+const int FRAME_PER_SECOND = 30; //FPS
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 640;
 const int SCREEN_BPP = 32;
@@ -23,7 +24,7 @@ const int COLOR_KEY_B = 180;
 const int RENDER_DRAW_COLOR = 0xff; // =255
 
 #define TILE_SIZE 32
-
+#define BLANK_TILE 0
 #define MAX_MAP_X 30
 #define MAX_MAP_Y 20
 

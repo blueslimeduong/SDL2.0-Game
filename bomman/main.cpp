@@ -3,6 +3,7 @@
 #include "BaseObject.h"
 #include "map.h"
 #include "PlayerObject.h"
+#include "ImpTimer.h"
 using namespace std;
 BaseObject g_background;
 bool InitData()
@@ -67,6 +68,9 @@ void close()
 }
 int main(int argc, char* argv[])
 {
+    ImpTimer fps_timer;
+
+
     if(InitData()==false)
     {
         cout << "INITDATA False" << endl;
@@ -91,6 +95,7 @@ int main(int argc, char* argv[])
     bool is_quit = false;
     while(!is_quit)
     {
+        fps_timer.start();
         while(SDL_PollEvent(&g_event)!=0)
         {
             if(g_event.type == SDL_QUIT)
@@ -106,9 +111,21 @@ int main(int argc, char* argv[])
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
 
+        Map map_data = game_map.getMap();
+
+        p_player.DoPlayer(map_data);
         p_player.Show(g_screen);
 
         SDL_RenderPresent(g_screen);
+
+        int real_imp_time = fps_timer.get_ticks();
+        int time_per_frame = 1000/FRAME_PER_SECOND; // mili sec
+
+        if(real_imp_time<time_per_frame)
+        {
+            int delay_time = time_per_frame - real_imp_time;
+            SDL_Delay(delay_time);
+        }
     }
 
     close();

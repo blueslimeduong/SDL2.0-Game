@@ -34,6 +34,10 @@
 		</Compiler>
 		<Unit filename="BaseObject.cpp" />
 		<Unit filename="BaseObject.h" />
+		<Unit filename="ImpTimer.cpp" />
+		<Unit filename="ImpTimer.h" />
+		<Unit filename="PlayerObject.cpp" />
+		<Unit filename="PlayerObject.h" />
 		<Unit filename="commonfunc.cpp" />
 		<Unit filename="commonfunc.h" />
 		<Unit filename="main.cpp" />
