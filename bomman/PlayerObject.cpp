@@ -45,22 +45,7 @@ void PlayerObject:: set_clips()
 }
 void PlayerObject::Show(SDL_Renderer* des)
 {
-    if(status_==WALK_LEFT)
-    {
-        LoadImg("img//player_left.png",des);
-    }
-    else if(status_==WALK_RIGHT)
-    {
-        LoadImg("img//player_right.png",des);
-    }
-    else if(status_==WALK_UP)
-    {
-        LoadImg("img//player_up.png",des);
-    }
-    else
-    {
-        LoadImg("img//player_down.png",des);
-    }
+    UpdateImagePlayer(des);
 
     if(input_type_.left_==1||input_type_.right_==1||input_type_.up_==1||input_type_.down_==1)
     {
@@ -259,4 +244,23 @@ void PlayerObject:: CheckToMap(Map& map_data)
     {
         x_pos_ = map_data.max_x_ - width_frame_ - 1;
     }
+}
+void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
+{
+    switch(status_)
+    {
+    case WALK_LEFT:
+       LoadImg("img/player_left.png",des);
+       break;
+    case WALK_RIGHT:
+        LoadImg("img/player_right.png",des);
+        break;
+    case WALK_UP:
+        LoadImg("img/player_up.png",des);
+        break;
+    case WALK_DOWN:
+        LoadImg("img/player_down.png",des);
+        break;
+    }
+
 }
