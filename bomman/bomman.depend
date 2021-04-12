@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1616576938 source:d:\ltnc\projectgame\bomman\main.cpp
+1618240527 source:d:\ltnc\projectgame\bomman\main.cpp
 	<iostream>
 	"commonfunc.h"
 	"BaseObject.h"
@@ -11,7 +11,7 @@
 	<iostream>
 	"commonfunc.h"
 
-1617637037 d:\ltnc\projectgame\bomman\commonfunc.h
+1618030843 d:\ltnc\projectgame\bomman\commonfunc.h
 	<windows.h>
 	<string>
 	<SDL.h>
@@ -33,11 +33,13 @@
 	"commonfunc.h"
 	"BaseObject.h"
 
-1617637073 d:\ltnc\projectgame\bomman\playerobject.h
+1618242494 d:\ltnc\projectgame\bomman\playerobject.h
+	<vector>
 	"commonfunc.h"
 	"BaseObject.h"
+	"BulletObject.h"
 
-1617635753 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+1618242159 source:d:\ltnc\projectgame\bomman\playerobject.cpp
 	"PlayerObject.h"
 
 1615648192 source:d:\ltnc\projectgame\bomman\imptimer.cpp
@@ -45,4 +47,11 @@
 	"commonfunc.h"
 
 1615648192 d:\ltnc\projectgame\bomman\imptimer.h
+
+1618242035 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
+	"BulletObject.h"
+
+1618242022 d:\ltnc\projectgame\bomman\bulletobject.h
+	"commonfunc.h"
+	"BaseObject.h"
 

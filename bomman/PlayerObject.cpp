@@ -46,7 +46,6 @@ void PlayerObject:: set_clips()
 void PlayerObject::Show(SDL_Renderer* des)
 {
     UpdateImagePlayer(des);
-
     if(input_type_.left_==1||input_type_.right_==1||input_type_.up_==1||input_type_.down_==1)
     {
         frame_++;
@@ -111,6 +110,48 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
                 input_type_.up_=0;
             }
             break;
+        case SDLK_SPACE:
+            {
+                BulletObject* p_bullet = new BulletObject();
+                p_bullet->LoadImg("img//bullet1.png",screen);
+
+                switch(status_)
+                {
+                case WALK_LEFT:
+                    {
+                       p_bullet->set_bullet_dir(BulletObject::DIR_LEFT);
+                       p_bullet->SetRect(this->rect_.x, rect_.y + height_frame_*0.5);
+                    }
+                   break;
+                case WALK_RIGHT:
+                    {
+                        p_bullet->set_bullet_dir(BulletObject::DIR_RIGHT);
+                        p_bullet->SetRect(this->rect_.x + width_frame_*0.5, rect_.y + height_frame_*0.5);
+                    }
+                    break;
+                case WALK_UP:
+                    {
+                        p_bullet->set_bullet_dir(BulletObject::DIR_UP);
+                        p_bullet->SetRect(this->rect_.x + width_frame_*0.25, rect_.y);
+                    }
+                    break;
+                case WALK_DOWN:
+                    {
+                        p_bullet->set_bullet_dir(BulletObject::DIR_DOWN);
+                        p_bullet->SetRect(this->rect_.x + width_frame_*0.25, rect_.y + height_frame_);
+                    };
+                    break;
+                }
+
+                p_bullet->set_x_val(BULLET_SPEED);
+                p_bullet->set_y_val(BULLET_SPEED);
+                p_bullet->set_is_move(true);
+
+                if(p_bullet_list_.size()<MAX_AMMO)
+                {
+                    p_bullet_list_.push_back(p_bullet);
+                }
+            }
         }
     }
     else if(events.type == SDL_KEYUP )
@@ -143,7 +184,30 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
         }
     }
 }
-
+void PlayerObject::HandleBullet(SDL_Renderer* des)
+{
+    for(int i=0; i < p_bullet_list_.size(); i++)
+    {
+        BulletObject* p_bullet = p_bullet_list_[i];
+        if(p_bullet != NULL)
+        {
+            if(p_bullet->get_is_move()==true)
+            {
+                p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+                p_bullet->Render(des);
+            }
+            else
+            {
+                p_bullet_list_.erase(p_bullet_list_.begin() + i);
+                if(p_bullet != NULL)
+                {
+                    delete p_bullet;
+                    p_bullet = NULL;
+                }
+            }
+        }
+    }
+}
 void PlayerObject::DoPlayer(Map& map_data)
 {
     x_val_ = 0;
@@ -206,7 +270,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
         }
     }
 
-    //Kiem tra theo chieu ngang
+    //Kiem tra theo chieu doc
     int width_min_ = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
     x1 = (x_pos_)/TILE_SIZE;
     x2 = (x_pos_ + width_min_ - 1)/TILE_SIZE;
@@ -250,16 +314,16 @@ void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
     switch(status_)
     {
     case WALK_LEFT:
-       LoadImg("img/player_left.png",des);
+       LoadImg("img/player_left2.png",des);
        break;
     case WALK_RIGHT:
-        LoadImg("img/player_right.png",des);
+        LoadImg("img/player_right2.png",des);
         break;
     case WALK_UP:
-        LoadImg("img/player_up.png",des);
+        LoadImg("img/player_up2.png",des);
         break;
     case WALK_DOWN:
-        LoadImg("img/player_down.png",des);
+        LoadImg("img/player_down2.png",des);
         break;
     }
 
