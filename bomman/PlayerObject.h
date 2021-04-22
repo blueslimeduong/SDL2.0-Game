@@ -7,9 +7,10 @@
 #include "BulletObject.h"
 using namespace std;
 const int Frame = 3;
-const int PLAYER_SPEED = 3;
-const int BULLET_SPEED = 6;
-const int MAX_AMMO = 5;
+const float PLAYER_MAX_SPEED = 4;
+const int PLAYER_MAX_BULLET = 6;
+const int BULLET_SPEED = 5;
+
 class PlayerObject : public BaseObject
 {
 public:
@@ -39,7 +40,10 @@ public:
     }
     vector<BulletObject*> get_bullet_list()const {return p_bullet_list_;}
 
-    void HandleBullet(SDL_Renderer* des);
+    void HandleBullet(SDL_Renderer* des, Map &map_data);
+
+    void IncreaseBullet();
+    void IncreaseSpeed();
 private:
     float x_val_;
     float y_val_;
@@ -57,6 +61,9 @@ private:
     int status_;
 
     vector<BulletObject*> p_bullet_list_;
+    int maxBullet_;
+
+    float player_speed_;
 };
 
 #endif // PLAYEROBJECT__H_

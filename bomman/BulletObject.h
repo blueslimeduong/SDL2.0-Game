@@ -3,7 +3,7 @@
 
 #include "commonfunc.h"
 #include "BaseObject.h"
-
+#include "map.h"
 class BulletObject :public BaseObject
 {
 public:
@@ -28,7 +28,9 @@ public:
 
     void set_bullet_dir(const unsigned int& bulletDir) {bullet_dir_ = bulletDir;}
     int get_bullet_dir(){return bullet_dir_;}
-    void HandleMove(const int& x_border, const int& y_border);
+    void HandleMove(Map &map_data);
+    void CheckToMap(Map &map_data);
+    void ChangeBrokenBlock(Map& map_data, const int& x, const int& y);
 private:
     int x_val_;
     int y_val_;

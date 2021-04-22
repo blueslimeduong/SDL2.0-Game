@@ -17,14 +17,20 @@ const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 640;
 const int SCREEN_BPP = 32;
 
-const int COLOR_KEY_R = 167;
-const int COLOR_KEY_G = 175;
-const int COLOR_KEY_B = 180;
+const int COLOR_KEY_R = 58;
+const int COLOR_KEY_G = 29;
+const int COLOR_KEY_B = 58;
 
 const int RENDER_DRAW_COLOR = 0xff; // =255
 
 #define TILE_SIZE 32
+
 #define BLANK_TILE 0
+const int BREAKABLE_TILE = 16;
+const int LIFE_TILE = 21;
+const int SPEED_TILE = 22;
+const int BULLET_TILE = 23;
+
 #define MAX_MAP_X 30
 #define MAX_MAP_Y 20
 

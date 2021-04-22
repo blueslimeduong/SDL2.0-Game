@@ -94,7 +94,7 @@ void GameMap::DrawMap(SDL_Renderer* screen) // fix later
         {
 
             int val = game_map_.tile[map_y][map_x];
-            if(val > 0)
+            if(val >= 0)
             {
                 tile_mat[val].SetRect(j,i);
                 tile_mat[val].Render(screen);

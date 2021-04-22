@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1618240527 source:d:\ltnc\projectgame\bomman\main.cpp
+1619020610 source:d:\ltnc\projectgame\bomman\main.cpp
 	<iostream>
+	<ctime>
 	"commonfunc.h"
 	"BaseObject.h"
 	"map.h"
@@ -11,7 +12,7 @@
 	<iostream>
 	"commonfunc.h"
 
-1618030843 d:\ltnc\projectgame\bomman\commonfunc.h
+1619014156 d:\ltnc\projectgame\bomman\commonfunc.h
 	<windows.h>
 	<string>
 	<SDL.h>
@@ -24,22 +25,22 @@
 1615467970 d:\ltnc\projectgame\bomman\baseobject.h
 	"commonfunc.h"
 
-1615351505 source:d:\ltnc\projectgame\bomman\map.cpp
+1618502767 source:d:\ltnc\projectgame\bomman\map.cpp
 	"map.h"
 	<bits/stdc++.h>
 	<fstream>
 
-1615556791 d:\ltnc\projectgame\bomman\map.h
+1619013864 d:\ltnc\projectgame\bomman\map.h
 	"commonfunc.h"
 	"BaseObject.h"
 
-1618242494 d:\ltnc\projectgame\bomman\playerobject.h
+1619015055 d:\ltnc\projectgame\bomman\playerobject.h
 	<vector>
 	"commonfunc.h"
 	"BaseObject.h"
 	"BulletObject.h"
 
-1618242159 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+1619015714 source:d:\ltnc\projectgame\bomman\playerobject.cpp
 	"PlayerObject.h"
 
 1615648192 source:d:\ltnc\projectgame\bomman\imptimer.cpp
@@ -48,10 +49,11 @@
 
 1615648192 d:\ltnc\projectgame\bomman\imptimer.h
 
-1618242035 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
+1619017295 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
 	"BulletObject.h"
 
-1618242022 d:\ltnc\projectgame\bomman\bulletobject.h
+1619012995 d:\ltnc\projectgame\bomman\bulletobject.h
 	"commonfunc.h"
 	"BaseObject.h"
+	"map.h"
 

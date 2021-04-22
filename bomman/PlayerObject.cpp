@@ -4,17 +4,25 @@
 PlayerObject::PlayerObject()
 {
     frame_ = 0;
+
     x_pos_= 64;
-    y_pos_= 160;
+    y_pos_= 192;
+
     x_val_= 0;
     y_val_= 0;
+
     width_frame_=0;
     height_frame_=0;
+
     status_=-1;
+
     input_type_.left_=0;
     input_type_.right_=0;
     input_type_.down_=0;
     input_type_.up_=0;
+
+    maxBullet_ = 2;
+    player_speed_ = 2;
 }
 PlayerObject::~PlayerObject()
 {
@@ -147,7 +155,7 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
                 p_bullet->set_y_val(BULLET_SPEED);
                 p_bullet->set_is_move(true);
 
-                if(p_bullet_list_.size()<MAX_AMMO)
+                if(p_bullet_list_.size()<maxBullet_)
                 {
                     p_bullet_list_.push_back(p_bullet);
                 }
@@ -184,7 +192,7 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
         }
     }
 }
-void PlayerObject::HandleBullet(SDL_Renderer* des)
+void PlayerObject::HandleBullet(SDL_Renderer* des, Map &map_data)
 {
     for(int i=0; i < p_bullet_list_.size(); i++)
     {
@@ -193,7 +201,7 @@ void PlayerObject::HandleBullet(SDL_Renderer* des)
         {
             if(p_bullet->get_is_move()==true)
             {
-                p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+                p_bullet->HandleMove(map_data);
                 p_bullet->Render(des);
             }
             else
@@ -215,19 +223,19 @@ void PlayerObject::DoPlayer(Map& map_data)
 
     if(input_type_.left_==1)
     {
-        x_val_ -= PLAYER_SPEED;
+        x_val_ -= player_speed_;
     }
     else if(input_type_.right_==1)
     {
-        x_val_ += PLAYER_SPEED;
+        x_val_ += player_speed_;
     }
     else if(input_type_.up_==1)
     {
-        y_val_ -= PLAYER_SPEED;
+        y_val_ -= player_speed_;
     }
     else if(input_type_.down_==1)
     {
-        y_val_ += PLAYER_SPEED;
+        y_val_ += player_speed_;
     }
     CheckToMap(map_data);
 }
@@ -253,7 +261,28 @@ void PlayerObject:: CheckToMap(Map& map_data)
     {
         if(x_val_ > 0)
         {
-            if(map_data.tile[y1][x2]!=BLANK_TILE || map_data.tile[y2][x2]!=BLANK_TILE)
+            int val1 = map_data.tile[y1][x2];
+            int val2 =  map_data.tile[y2][x2];
+            if(val1==SPEED_TILE||val2==SPEED_TILE)
+            {
+                IncreaseSpeed();
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+
+            }
+            else if(val1==BULLET_TILE||val2==BULLET_TILE)
+            {
+                IncreaseBullet();
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+            }
+             else if(val1==LIFE_TILE||val2==LIFE_TILE)
+            {
+
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+            }
+            else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
             {
                 x_pos_ = x2*TILE_SIZE;
                 x_pos_ -= width_frame_ + 1;
@@ -262,7 +291,27 @@ void PlayerObject:: CheckToMap(Map& map_data)
         }
         else if(x_val_ < 0)
         {
-            if(map_data.tile[y1][x1]!=BLANK_TILE || map_data.tile[y2][x1]!=BLANK_TILE)
+            int val1 = map_data.tile[y1][x1];
+            int val2 = map_data.tile[y2][x1];
+            if (val1==SPEED_TILE||val2==SPEED_TILE)
+            {
+                 IncreaseSpeed();
+                 map_data.tile[y1][x1] = 0;
+                 map_data.tile[y2][x1] = 0;
+            }
+            else if (val1==BULLET_TILE||val2==BULLET_TILE)
+            {
+                 IncreaseBullet();
+                 map_data.tile[y1][x1] = 0;
+                 map_data.tile[y2][x1] = 0;
+            }
+            else if (val1==LIFE_TILE||val2==LIFE_TILE)
+            {
+
+                 map_data.tile[y1][x1] = 0;
+                 map_data.tile[y2][x1] = 0;
+            }
+            else if(val1!=BLANK_TILE ||val2!=BLANK_TILE)
             {
                 x_pos_ = (x1+1)*TILE_SIZE;
                 x_val_ = 0;
@@ -282,7 +331,27 @@ void PlayerObject:: CheckToMap(Map& map_data)
     {
         if(y_val_>0)
         {
-            if(map_data.tile[y2][x1]!=BLANK_TILE || map_data.tile[y2][x2]!=BLANK_TILE)
+            int val1 = map_data.tile[y2][x1];
+            int val2 = map_data.tile[y2][x2];
+            if(val1==SPEED_TILE||val2==SPEED_TILE)
+            {
+                IncreaseSpeed();
+                map_data.tile[y2][x1] = 0;
+                map_data.tile[y2][x2] = 0;
+            }
+            else if(val1==BULLET_TILE||val2==BULLET_TILE)
+            {
+                IncreaseBullet();
+                map_data.tile[y2][x1] = 0;
+                map_data.tile[y2][x2] = 0;
+            }
+            else if(val1==LIFE_TILE||val2==LIFE_TILE)
+            {
+
+                map_data.tile[y2][x1] = 0;
+                map_data.tile[y2][x2] = 0;
+            }
+            else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
             {
                 y_pos_ = y2*TILE_SIZE;
                 y_pos_ -= (height_frame_+1);
@@ -291,7 +360,27 @@ void PlayerObject:: CheckToMap(Map& map_data)
         }
         else if(y_val_ < 0)
         {
-             if(map_data.tile[y1][x1]!=BLANK_TILE || map_data.tile[y1][x2]!=BLANK_TILE)
+            int val1 = map_data.tile[y1][x1];
+            int val2 = map_data.tile[y1][x2];
+            if(val1==SPEED_TILE||val2==SPEED_TILE)
+            {
+                IncreaseSpeed();
+                map_data.tile[y1][x1] = 0;
+                map_data.tile[y1][x2] = 0;
+            }
+            else if(val1==BULLET_TILE||val2==BULLET_TILE)
+            {
+                IncreaseBullet();
+                map_data.tile[y1][x1] = 0;
+                map_data.tile[y1][x2] = 0;
+            }
+            else if(val1==LIFE_TILE||val2==LIFE_TILE)
+            {
+
+                map_data.tile[y1][x1] = 0;
+                map_data.tile[y1][x2] = 0;
+            }
+            else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
              {
                  y_pos_ =  (y1 + 1)*TILE_SIZE;
                  y_val_ = 0;
@@ -327,4 +416,23 @@ void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
         break;
     }
 
+}
+
+void PlayerObject::IncreaseBullet()
+{
+    maxBullet_ += 1;
+    if(maxBullet_ >= PLAYER_MAX_BULLET)
+    {
+        maxBullet_ = PLAYER_MAX_BULLET;
+    }
+    return;
+}
+void PlayerObject::IncreaseSpeed()
+{
+    player_speed_ += 0.5;
+    if(player_speed_ >= PLAYER_MAX_SPEED)
+    {
+        player_speed_ = PLAYER_MAX_SPEED;
+    }
+    return;
 }

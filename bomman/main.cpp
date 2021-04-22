@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "commonfunc.h"
 #include "BaseObject.h"
 #include "map.h"
@@ -16,7 +17,7 @@ bool InitData()
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    g_window = SDL_CreateWindow("Bomman",
+    g_window = SDL_CreateWindow("Wizard In Dungeon",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                 SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if(g_window == NULL)
@@ -45,7 +46,7 @@ bool InitData()
 }
 bool LoadBackGround()
 {
-    bool ret = g_background.LoadImg("img//background.png", g_screen);
+    bool ret = g_background.LoadImg("img//bg.png", g_screen);
     if(ret == false)
     {
         return false;
@@ -69,7 +70,7 @@ void close()
 int main(int argc, char* argv[])
 {
     ImpTimer fps_timer;
-
+    srand(time(0));
 
     if(InitData()==false)
     {
@@ -113,10 +114,11 @@ int main(int argc, char* argv[])
 
         Map map_data = game_map.getMap();
 
-        p_player.HandleBullet(g_screen);
+        p_player.HandleBullet(g_screen,map_data);
         p_player.DoPlayer(map_data);
         p_player.Show(g_screen);
 
+        game_map.UpdateMap(map_data);
         SDL_RenderPresent(g_screen);
 
         int real_imp_time = fps_timer.get_ticks();

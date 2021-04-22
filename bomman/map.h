@@ -5,7 +5,7 @@
 #include "BaseObject.h"
 using namespace std;
 
-const int MAX_TILES = 5;
+const int MAX_TILES = 25;
 
 
 class TileMat : public BaseObject
@@ -27,6 +27,7 @@ public:
     void LoadTiles(SDL_Renderer* screen);
     void DrawMap(SDL_Renderer* screen);
     Map getMap() const{return game_map_;};
+    void UpdateMap(Map& map_data){ game_map_ = map_data;};
 private:
     Map game_map_;
     TileMat tile_mat[MAX_TILES];
