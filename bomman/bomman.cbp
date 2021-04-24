@@ -36,6 +36,8 @@
 		<Unit filename="BaseObject.h" />
 		<Unit filename="BulletObject.cpp" />
 		<Unit filename="BulletObject.h" />
+		<Unit filename="EnemyObject.cpp" />
+		<Unit filename="EnemyObject.h" />
 		<Unit filename="ImpTimer.cpp" />
 		<Unit filename="ImpTimer.h" />
 		<Unit filename="PlayerObject.cpp" />

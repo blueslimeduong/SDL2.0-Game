@@ -41,9 +41,12 @@ public:
     vector<BulletObject*> get_bullet_list()const {return p_bullet_list_;}
 
     void HandleBullet(SDL_Renderer* des, Map &map_data);
+    void RemoveBullet(const int& index);
 
     void IncreaseBullet();
     void IncreaseSpeed();
+
+    SDL_Rect GetRectFrame();
 private:
     float x_val_;
     float y_val_;

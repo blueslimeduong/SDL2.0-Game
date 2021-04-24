@@ -38,6 +38,15 @@ bool PlayerObject::LoadImg(string path, SDL_Renderer* screen)
         height_frame_ = rect_.h;
     }
 }
+SDL_Rect PlayerObject::GetRectFrame()
+{
+    SDL_Rect rect;
+    rect.x = rect_.x;
+    rect.y = rect_.y;
+    rect.h = height_frame_;
+    rect.w = width_frame_;
+    return rect;
+}
 void PlayerObject:: set_clips()
 {
     if(width_frame_ > 0 && height_frame_ > 0)
@@ -389,14 +398,14 @@ void PlayerObject:: CheckToMap(Map& map_data)
     }
     x_pos_ += x_val_;
     y_pos_ += y_val_;
-    if(x_pos_<0)//check later
-    {
-        x_pos_ = 0;
-    }
-    else if(x_pos_ + width_frame_ > map_data.max_x_ )//check later
-    {
-        x_pos_ = map_data.max_x_ - width_frame_ - 1;
-    }
+//    if(x_pos_<0)//check later
+//    {
+//        x_pos_ = 0;
+//    }
+//    else if(x_pos_ + width_frame_ > map_data.max_x_ )//check later
+//    {
+//        x_pos_ = map_data.max_x_ - width_frame_ - 1;
+//    }
 }
 void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
 {
@@ -416,6 +425,15 @@ void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
         break;
     }
 
+}
+void PlayerObject::RemoveBullet(const int& index)
+{
+    int size = p_bullet_list_.size();
+    if(size>0 && index<size)
+    {
+        BulletObject* p_bullet = p_bullet_list_[index];
+        p_bullet_list_.erase(p_bullet_list_.begin() + index);
+    }
 }
 
 void PlayerObject::IncreaseBullet()
