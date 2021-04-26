@@ -6,6 +6,7 @@
 #include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;

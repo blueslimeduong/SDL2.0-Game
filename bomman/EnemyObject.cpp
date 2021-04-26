@@ -8,7 +8,7 @@ EnemyObject::EnemyObject()
     y_val_ = 0;
     x_pos_ = 0;
     y_pos_ = 0;
-    come_back_time_ = 0;
+//    come_back_time_ = 0;
     frame_ = 0;
     type_move_ = STATIC_ENEMY;
     input_type_.left_=0;
@@ -58,26 +58,26 @@ void EnemyObject::set_clips()
 void EnemyObject::Show(SDL_Renderer* des)
 {
     UpdateImage(des);
-    if(come_back_time_ == 0)
-    {
+//    if(come_back_time_ == 0)
+//    {
 //        rect_.x = x_pos_ - map_x_;
 //        rect_.y = y_pos_ - map_y_;
-        rect_.x = x_pos_ ;
-        rect_.y = y_pos_ ;
-        frame_++;
-        if(frame_>EFrame)
-        {
-            frame_=0;
-        }
-        SDL_Rect* currentClips = &frame_clips_[frame_];
-        SDL_Rect rendQuad = {rect_.x,rect_.y,width_frame_,height_frame_};
-        SDL_RenderCopy(des,p_object_,currentClips,&rendQuad);
+    rect_.x = x_pos_ ;
+    rect_.y = y_pos_ ;
+    frame_++;
+    if(frame_>=EFrame)
+    {
+        frame_=0;
     }
+    SDL_Rect* currentClips = &frame_clips_[frame_];
+    SDL_Rect rendQuad = {rect_.x,rect_.y,width_frame_,height_frame_};
+    SDL_RenderCopy(des,p_object_,currentClips,&rendQuad);
+//    }
 }
 void EnemyObject::DoEnemy(Map& gMap)
 {
-    if(come_back_time_ == 0)
-    {
+//    if(come_back_time_ == 0)
+//    {
         x_val_ = 0;
         y_val_ = 0;
         if(input_type_.left_==1)
@@ -97,18 +97,18 @@ void EnemyObject::DoEnemy(Map& gMap)
             y_val_ += ENEMY_SPEED;
         }
         CheckToMap(gMap);
-    }
-
-    else if(come_back_time_>0)
-    {
-        come_back_time_--;
-        if(come_back_time_==0)
-        {
-            x_val_ = 0;
-            y_val_ = 0;
-
-        }
-    }
+//    }
+//
+//    else if(come_back_time_>0)
+//    {
+//        come_back_time_--;
+//        if(come_back_time_==0)
+//        {
+//            x_val_ = 0;
+//            y_val_ = 0;
+//
+//        }
+//    }
 }
 void EnemyObject::CheckToMap(Map& map_data)
 {
@@ -256,19 +256,19 @@ void EnemyObject::UpdateImage(SDL_Renderer* des)
     if(type_move_==STATIC_ENEMY) return;
     if(input_type_.left_==1)
     {
-        LoadImg("img/player_left.png",des);
+        LoadImg("img/enemy/enemy_left.png",des);
     }
     else if(input_type_.right_==1)
     {
-        LoadImg("img/player_right.png",des);
+        LoadImg("img/enemy/enemy_right.png",des);
     }
     else if(input_type_.up_==1)
     {
-        LoadImg("img/player_up.png",des);
+        LoadImg("img/enemy/enemy_up.png",des);
     }
     else if(input_type_.down_==1)
     {
-        LoadImg("img/player_down.png",des);
+        LoadImg("img/enemy/enemy_down.png",des);
     }
 }
 void EnemyObject::set_input_type_()

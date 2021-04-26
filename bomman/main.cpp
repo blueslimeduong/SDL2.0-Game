@@ -6,9 +6,11 @@
 #include "PlayerObject.h"
 #include "ImpTimer.h"
 #include "EnemyObject.h"
+#include "TextObject.h"
 using namespace std;
 int dem = 0;
 BaseObject g_background;
+TTF_Font* font_time = NULL;
 bool InitData()
 {
     bool success = true;
@@ -43,12 +45,22 @@ bool InitData()
             }
         }
 
+        if(TTF_Init() == -1)
+        {
+            success = false;
+        }
+        font_time = TTF_OpenFont("font/Aller_Bd.ttf", 20);
+        if(font_time==NULL)
+        {
+            success = false;
+        }
+
     }
     return success;
 }
 bool LoadBackGround()
 {
-    bool ret = g_background.LoadImg("img//bg.png", g_screen);
+    bool ret = g_background.LoadImg("img//bg1.png", g_screen);
     if(ret == false)
     {
         return false;
@@ -79,7 +91,7 @@ vector<EnemyObject*>MakeEnemyList()
         EnemyObject* p_enemy  = enemies_objs + i;
         if(p_enemy!=NULL)
         {
-            p_enemy->LoadImg("img/enemy11.png",g_screen);
+            p_enemy->LoadImg("img/enemy/static_enemy.png",g_screen);
             p_enemy->set_clips();
             p_enemy->set_type_move(EnemyObject::STATIC_ENEMY);
             p_enemy->set_x_pos(416 + i*128);
@@ -92,23 +104,24 @@ vector<EnemyObject*>MakeEnemyList()
 
     int M_E_Num = 0;
     EnemyObject* moving_enemies = new EnemyObject[15];
-    for(int i=0; i<5; i++){
-    for(int j=0; j<3; j++)
+    for(int i=0; i<5; i++)
     {
-        EnemyObject* p_enemy = moving_enemies+ M_E_Num;
-        M_E_Num++;
-        if(p_enemy!=NULL)
+        for(int j=0; j<3; j++)
         {
-            p_enemy->LoadImg("img/player_down.png",g_screen);
-            p_enemy->set_clips();
-            p_enemy->set_type_move(EnemyObject::MOVING_ENEMY);
-//            p_enemy->set_input_type_();
-            p_enemy->set_x_pos(224 + i*128);
-            p_enemy->set_y_pos(224 + j*160);
+            EnemyObject* p_enemy = moving_enemies+ M_E_Num;
+            M_E_Num++;
+            if(p_enemy!=NULL)
+            {
+                p_enemy->LoadImg("img/enemy/enemy_down.png",g_screen);
+                p_enemy->set_clips();
+                p_enemy->set_type_move(EnemyObject::MOVING_ENEMY);
+                p_enemy->set_input_type_();
+                p_enemy->set_x_pos(224 + i*128);
+                p_enemy->set_y_pos(224 + j*160);
 
-            list_enemies.push_back(p_enemy);
+                list_enemies.push_back(p_enemy);
+            }
         }
-    }
     }
     return list_enemies;
 }
@@ -135,10 +148,16 @@ int main(int argc, char* argv[])
     game_map.LoadTiles(g_screen);
 
     PlayerObject p_player;
-    p_player.LoadImg("img//player_down2.png",g_screen);
+    p_player.LoadImg("img/player/player_down2.png",g_screen);
     p_player.set_clips();
 
     vector<EnemyObject*> enemies_list = MakeEnemyList();
+
+    TextObject time_game;
+    time_game.SetColor(TextObject::WHITE_TEXT);
+    TextObject score_game;
+    score_game.SetColor(TextObject::WHITE_TEXT);
+    unsigned int score_val = 0;
 
     bool is_quit = false;
     while(!is_quit)
@@ -190,7 +209,9 @@ int main(int argc, char* argv[])
                         isCol1 = checkCollision(p_Ebullet->GetRect(),rect_player);
                         if(isCol1)
                         {
-                            p_enemy->RemoveBullet(j);
+                            //p_enemy->RemoveBullet(j);
+                            p_Ebullet->set_is_move(false);
+
                             break;
                         }
                     }
@@ -208,6 +229,8 @@ int main(int argc, char* argv[])
 //                        SDL_Quit();
 //                        return;
 //                    }
+                    p_player.respawn();
+                    if(p_player.get_life_point()<=0)
                     cout << "DIE" << dem++ <<endl;
                 }
             }
@@ -229,6 +252,7 @@ int main(int argc, char* argv[])
                         bool isCol = checkCollision(jRect,iRect);
                         if(isCol)
                         {
+                            score_val += 10;
                             p_player.RemoveBullet(i);
                             p_enemy->Free();
                             enemies_list.erase(enemies_list.begin() + j);
@@ -237,6 +261,29 @@ int main(int argc, char* argv[])
                 }
             }
         }
+        // Show Text
+        string str_time = "Time: ";
+        Uint32 time_val = SDL_GetTicks()/1000;
+        Uint32 val_time = 300 - time_val;
+        if(val_time<=0)
+        {
+            is_quit = true;
+        }
+        else
+        {
+            string str_val = to_string(val_time);
+            str_time += str_val;
+
+            time_game.SetText(str_time);
+            time_game.LoadFromRenderText(font_time,g_screen);
+            time_game.RenderText(g_screen,SCREEN_WIDTH - 150,20);
+        }
+
+        string val_str_score = to_string(score_val);
+        string strScore = "Score: " + val_str_score;
+        score_game.SetText(strScore);
+        score_game.LoadFromRenderText(font_time,g_screen);
+        score_game.RenderText(g_screen,SCREEN_WIDTH-500, 20);
 
         SDL_RenderPresent(g_screen);
 

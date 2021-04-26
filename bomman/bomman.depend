@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1619282177 source:d:\ltnc\projectgame\bomman\main.cpp
+1619455931 source:d:\ltnc\projectgame\bomman\main.cpp
 	<iostream>
 	<ctime>
 	"commonfunc.h"
@@ -8,17 +8,19 @@
 	"PlayerObject.h"
 	"ImpTimer.h"
 	"EnemyObject.h"
+	"TextObject.h"
 
 1619281228 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
 	<iostream>
 	"commonfunc.h"
 
-1619281228 d:\ltnc\projectgame\bomman\commonfunc.h
+1619452848 d:\ltnc\projectgame\bomman\commonfunc.h
 	<windows.h>
 	<string>
 	<vector>
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_ttf.h>
 
 1617636904 source:d:\ltnc\projectgame\bomman\baseobject.cpp
 	<iostream>
@@ -36,13 +38,13 @@
 	"commonfunc.h"
 	"BaseObject.h"
 
-1619278969 d:\ltnc\projectgame\bomman\playerobject.h
+1619371341 d:\ltnc\projectgame\bomman\playerobject.h
 	<vector>
 	"commonfunc.h"
 	"BaseObject.h"
 	"BulletObject.h"
 
-1619280132 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+1619450893 source:d:\ltnc\projectgame\bomman\playerobject.cpp
 	"PlayerObject.h"
 
 1615648192 source:d:\ltnc\projectgame\bomman\imptimer.cpp
@@ -51,7 +53,7 @@
 
 1615648192 d:\ltnc\projectgame\bomman\imptimer.h
 
-1619017295 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
+1619371188 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
 	"BulletObject.h"
 
 1619012995 d:\ltnc\projectgame\bomman\bulletobject.h
@@ -59,11 +61,17 @@
 	"BaseObject.h"
 	"map.h"
 
-1619281974 source:d:\ltnc\projectgame\bomman\enemyobject.cpp
+1619439752 source:d:\ltnc\projectgame\bomman\enemyobject.cpp
 	"EnemyObject.h"
 
-1619281666 d:\ltnc\projectgame\bomman\enemyobject.h
+1619438071 d:\ltnc\projectgame\bomman\enemyobject.h
 	"commonfunc.h"
 	"BaseObject.h"
 	"BulletObject.h"
+
+1619454842 source:d:\ltnc\projectgame\bomman\textobject.cpp
+	"TextObject.h"
+
+1619452867 d:\ltnc\projectgame\bomman\textobject.h
+	"commonfunc.h"
 

@@ -10,7 +10,9 @@ const int Frame = 3;
 const float PLAYER_MAX_SPEED = 4;
 const int PLAYER_MAX_BULLET = 6;
 const int BULLET_SPEED = 5;
-
+const int MAX_LIFE_POINT = 3;
+const int SPAWN_X = 32;
+const int SPAWN_Y = 192;
 class PlayerObject : public BaseObject
 {
 public:
@@ -43,10 +45,14 @@ public:
     void HandleBullet(SDL_Renderer* des, Map &map_data);
     void RemoveBullet(const int& index);
 
+    int get_life_point(){return life_point_;}
     void IncreaseBullet();
     void IncreaseSpeed();
+    void RefillLifePoint();
 
     SDL_Rect GetRectFrame();
+    void set_come_back_time(const int& cb_time){come_back_time_=cb_time;}
+    void respawn();
 private:
     float x_val_;
     float y_val_;
@@ -62,7 +68,8 @@ private:
     Input input_type_;
     int frame_;
     int status_;
-
+    int come_back_time_;
+    int life_point_;
     vector<BulletObject*> p_bullet_list_;
     int maxBullet_;
 

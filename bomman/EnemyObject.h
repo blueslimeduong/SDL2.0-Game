@@ -4,8 +4,8 @@
 #include "commonfunc.h"
 #include "BaseObject.h"
 #include "BulletObject.h"
-const int EFrame = 3;
-const float ENEMY_SPEED = 2.5;
+const int EFrame = 9;
+const float ENEMY_SPEED = 4;
 const int ENEMY_BULLET_SPEED = 5;
 class EnemyObject : public BaseObject
 {
@@ -53,7 +53,7 @@ private:
     float y_pos_;
     float x_val_;
     float y_val_;
-    int come_back_time_;
+//    int come_back_time_;
     SDL_Rect frame_clips_[EFrame];
     int width_frame_;
     int height_frame_;

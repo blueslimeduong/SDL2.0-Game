@@ -15,6 +15,7 @@ PlayerObject::PlayerObject()
     height_frame_=0;
 
     status_=-1;
+    life_point_ = 3;
 
     input_type_.left_=0;
     input_type_.right_=0;
@@ -73,9 +74,9 @@ void PlayerObject::Show(SDL_Renderer* des)
         frame_ = 0;
     }
     if(frame_>=Frame)
-        {
-            frame_=0;
-        }
+    {
+        frame_=0;
+    }
     rect_.x = x_pos_;
     rect_.y = y_pos_;
 
@@ -287,7 +288,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
             }
              else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
-
+                RefillLifePoint();
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
             }
@@ -316,7 +317,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
             }
             else if (val1==LIFE_TILE||val2==LIFE_TILE)
             {
-
+                 RefillLifePoint();
                  map_data.tile[y1][x1] = 0;
                  map_data.tile[y2][x1] = 0;
             }
@@ -356,7 +357,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
             }
             else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
-
+                RefillLifePoint();
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
             }
@@ -385,7 +386,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
             }
             else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
-
+                RefillLifePoint();
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
             }
@@ -412,16 +413,16 @@ void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
     switch(status_)
     {
     case WALK_LEFT:
-       LoadImg("img/player_left2.png",des);
+       LoadImg("img/player/player_left2.png",des);
        break;
     case WALK_RIGHT:
-        LoadImg("img/player_right2.png",des);
+        LoadImg("img/player/player_right2.png",des);
         break;
     case WALK_UP:
-        LoadImg("img/player_up2.png",des);
+        LoadImg("img/player/player_up2.png",des);
         break;
     case WALK_DOWN:
-        LoadImg("img/player_down2.png",des);
+        LoadImg("img/player/player_down2.png",des);
         break;
     }
 
@@ -452,5 +453,26 @@ void PlayerObject::IncreaseSpeed()
     {
         player_speed_ = PLAYER_MAX_SPEED;
     }
+    return;
+}
+void PlayerObject::RefillLifePoint()
+{
+    life_point_ += 1;
+    if(life_point_>=MAX_LIFE_POINT)
+    {
+        life_point_ = MAX_LIFE_POINT;
+    }
+    return;
+}
+void PlayerObject::respawn()
+{
+    life_point_--;
+    SetRect(0,0);
+    x_pos_ = SPAWN_X;
+    y_pos_ = SPAWN_Y;
+    x_val_ = 0;
+    y_val_ = 0;
+    status_ = WALK_DOWN;
+    SDL_Delay(100);
     return;
 }
