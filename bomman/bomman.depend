@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1619455931 source:d:\ltnc\projectgame\bomman\main.cpp
+1619859065 source:d:\ltnc\projectgame\bomman\main.cpp
 	<iostream>
 	<ctime>
 	"commonfunc.h"
@@ -9,18 +9,22 @@
 	"ImpTimer.h"
 	"EnemyObject.h"
 	"TextObject.h"
+	"Game.h"
 
-1619281228 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
+1619529826 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
 	<iostream>
 	"commonfunc.h"
 
-1619452848 d:\ltnc\projectgame\bomman\commonfunc.h
+1619843637 d:\ltnc\projectgame\bomman\commonfunc.h
 	<windows.h>
 	<string>
 	<vector>
+	<iostream>
+	<ctime>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 
 1617636904 source:d:\ltnc\projectgame\bomman\baseobject.cpp
 	<iostream>
@@ -34,17 +38,17 @@
 	<bits/stdc++.h>
 	<fstream>
 
-1619013864 d:\ltnc\projectgame\bomman\map.h
+1619585709 d:\ltnc\projectgame\bomman\map.h
 	"commonfunc.h"
 	"BaseObject.h"
 
-1619371341 d:\ltnc\projectgame\bomman\playerobject.h
+1619704784 d:\ltnc\projectgame\bomman\playerobject.h
 	<vector>
 	"commonfunc.h"
 	"BaseObject.h"
 	"BulletObject.h"
 
-1619450893 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+1619704771 source:d:\ltnc\projectgame\bomman\playerobject.cpp
 	"PlayerObject.h"
 
 1615648192 source:d:\ltnc\projectgame\bomman\imptimer.cpp
@@ -53,7 +57,7 @@
 
 1615648192 d:\ltnc\projectgame\bomman\imptimer.h
 
-1619371188 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
+1619704268 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
 	"BulletObject.h"
 
 1619012995 d:\ltnc\projectgame\bomman\bulletobject.h
@@ -61,10 +65,10 @@
 	"BaseObject.h"
 	"map.h"
 
-1619439752 source:d:\ltnc\projectgame\bomman\enemyobject.cpp
+1619608324 source:d:\ltnc\projectgame\bomman\enemyobject.cpp
 	"EnemyObject.h"
 
-1619438071 d:\ltnc\projectgame\bomman\enemyobject.h
+1619612147 d:\ltnc\projectgame\bomman\enemyobject.h
 	"commonfunc.h"
 	"BaseObject.h"
 	"BulletObject.h"
@@ -74,4 +78,21 @@
 
 1619452867 d:\ltnc\projectgame\bomman\textobject.h
 	"commonfunc.h"
+
+1619861832 source:d:\ltnc\projectgame\bomman\game.cpp
+	"Game.h"
+
+1619860501 d:\ltnc\projectgame\bomman\game.h
+	"commonfunc.h"
+	"EnemyObject.h"
+	"PlayerObject.h"
+	"BulletObject.h"
+	"Button.h"
+
+1619853023 source:d:\ltnc\projectgame\bomman\button.cpp
+	"Button.h"
+
+1619852086 d:\ltnc\projectgame\bomman\button.h
+	"commonfunc.h"
+	"BaseObject.h"
 

@@ -5,7 +5,7 @@
 #include "BaseObject.h"
 using namespace std;
 
-const int MAX_TILES = 25;
+const int MAX_TILES = 30;
 
 
 class TileMat : public BaseObject

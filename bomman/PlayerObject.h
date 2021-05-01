@@ -9,7 +9,7 @@ using namespace std;
 const int Frame = 3;
 const float PLAYER_MAX_SPEED = 4;
 const int PLAYER_MAX_BULLET = 6;
-const int BULLET_SPEED = 5;
+const int BULLET_SPEED = 5.25;
 const int MAX_LIFE_POINT = 3;
 const int SPAWN_X = 32;
 const int SPAWN_Y = 192;
@@ -29,7 +29,7 @@ public:
 
     bool LoadImg(string path, SDL_Renderer* screen);
     void Show(SDL_Renderer* des);
-    void HandleInputAction(SDL_Event events, SDL_Renderer* screen);
+    void HandleInputAction(SDL_Event events, SDL_Renderer* screen, Mix_Chunk* gFireball);
     void set_clips();
 
     void DoPlayer(Map& map_data);
@@ -51,8 +51,8 @@ public:
     void RefillLifePoint();
 
     SDL_Rect GetRectFrame();
-    void set_come_back_time(const int& cb_time){come_back_time_=cb_time;}
     void respawn();
+    bool is_levelup(){return level_up;}
 private:
     float x_val_;
     float y_val_;
@@ -68,12 +68,13 @@ private:
     Input input_type_;
     int frame_;
     int status_;
-    int come_back_time_;
     int life_point_;
     vector<BulletObject*> p_bullet_list_;
     int maxBullet_;
 
     float player_speed_;
+
+    bool level_up;
 };
 
 #endif // PLAYEROBJECT__H_

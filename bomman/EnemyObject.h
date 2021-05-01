@@ -6,7 +6,7 @@
 #include "BulletObject.h"
 const int EFrame = 9;
 const float ENEMY_SPEED = 4;
-const int ENEMY_BULLET_SPEED = 5;
+const int ENEMY_BULLET_SPEED = 6.5;
 class EnemyObject : public BaseObject
 {
 public:

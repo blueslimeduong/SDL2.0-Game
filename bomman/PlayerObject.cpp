@@ -24,6 +24,8 @@ PlayerObject::PlayerObject()
 
     maxBullet_ = 2;
     player_speed_ = 2;
+
+    level_up = false;
 }
 PlayerObject::~PlayerObject()
 {
@@ -86,7 +88,7 @@ void PlayerObject::Show(SDL_Renderer* des)
 
     SDL_RenderCopy(des, p_object_,current_clip,&renderQuad);
 }
-void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
+void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen, Mix_Chunk* fire_sound)
 {
     if(events.type == SDL_KEYDOWN)
     {
@@ -164,9 +166,9 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
                 p_bullet->set_x_val(BULLET_SPEED);
                 p_bullet->set_y_val(BULLET_SPEED);
                 p_bullet->set_is_move(true);
-
                 if(p_bullet_list_.size()<maxBullet_)
                 {
+                    Mix_PlayChannel(-1,fire_sound,0);
                     p_bullet_list_.push_back(p_bullet);
                 }
             }
@@ -292,6 +294,10 @@ void PlayerObject:: CheckToMap(Map& map_data)
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
             }
+            else if(val1==25||val2==25)
+            {
+                level_up = true;
+            }
             else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
             {
                 x_pos_ = x2*TILE_SIZE;
@@ -320,6 +326,10 @@ void PlayerObject:: CheckToMap(Map& map_data)
                  RefillLifePoint();
                  map_data.tile[y1][x1] = 0;
                  map_data.tile[y2][x1] = 0;
+            }
+              else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
+            {
+                level_up = true;
             }
             else if(val1!=BLANK_TILE ||val2!=BLANK_TILE)
             {
@@ -361,6 +371,10 @@ void PlayerObject:: CheckToMap(Map& map_data)
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
             }
+              else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
+            {
+                level_up = true;
+            }
             else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
             {
                 y_pos_ = y2*TILE_SIZE;
@@ -390,6 +404,10 @@ void PlayerObject:: CheckToMap(Map& map_data)
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
             }
+              else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
+            {
+                level_up = true;
+            }
             else if(val1!=BLANK_TILE || val2!=BLANK_TILE)
              {
                  y_pos_ =  (y1 + 1)*TILE_SIZE;
@@ -399,14 +417,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
     }
     x_pos_ += x_val_;
     y_pos_ += y_val_;
-//    if(x_pos_<0)//check later
-//    {
-//        x_pos_ = 0;
-//    }
-//    else if(x_pos_ + width_frame_ > map_data.max_x_ )//check later
-//    {
-//        x_pos_ = map_data.max_x_ - width_frame_ - 1;
-//    }
+
 }
 void PlayerObject::UpdateImagePlayer(SDL_Renderer* des)
 {

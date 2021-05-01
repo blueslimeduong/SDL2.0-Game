@@ -76,8 +76,6 @@ void EnemyObject::Show(SDL_Renderer* des)
 }
 void EnemyObject::DoEnemy(Map& gMap)
 {
-//    if(come_back_time_ == 0)
-//    {
         x_val_ = 0;
         y_val_ = 0;
         if(input_type_.left_==1)
@@ -97,18 +95,6 @@ void EnemyObject::DoEnemy(Map& gMap)
             y_val_ += ENEMY_SPEED;
         }
         CheckToMap(gMap);
-//    }
-//
-//    else if(come_back_time_>0)
-//    {
-//        come_back_time_--;
-//        if(come_back_time_==0)
-//        {
-//            x_val_ = 0;
-//            y_val_ = 0;
-//
-//        }
-//    }
 }
 void EnemyObject::CheckToMap(Map& map_data)
 {
