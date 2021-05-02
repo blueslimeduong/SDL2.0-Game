@@ -30,10 +30,9 @@ public:
     bool LoadImg(string path, SDL_Renderer* screen);
     void Show(SDL_Renderer* des);
     void HandleInputAction(SDL_Event events, SDL_Renderer* screen, Mix_Chunk* gFireball);
-    void set_clips();
 
-    void DoPlayer(Map& map_data);
-    void CheckToMap(Map& map_data);
+    void DoPlayer(Map& map_data, Mix_Chunk* Pick);
+    void CheckToMap(Map& map_data, Mix_Chunk* Pick);
     void UpdateImagePlayer(SDL_Renderer* des);
 
     void set_bullet_list(vector<BulletObject*> bullet_list)
@@ -42,7 +41,7 @@ public:
     }
     vector<BulletObject*> get_bullet_list()const {return p_bullet_list_;}
 
-    void HandleBullet(SDL_Renderer* des, Map &map_data);
+    void HandleBullet(SDL_Renderer* des, Map &map_data, Mix_Chunk* Crate);
     void RemoveBullet(const int& index);
 
     int get_life_point(){return life_point_;}
@@ -51,7 +50,7 @@ public:
     void RefillLifePoint();
 
     SDL_Rect GetRectFrame();
-    void respawn();
+    void respawn(Mix_Chunk* Die);
     bool is_levelup(){return level_up;}
 private:
     float x_val_;

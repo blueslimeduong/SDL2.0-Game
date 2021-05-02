@@ -10,9 +10,11 @@ void EnemyCollision(PlayerObject &p_player, vector<EnemyObject*> &enemies_list,u
 bool PlayerCollision(PlayerObject &p_player,EnemyObject* p_enemy);
 vector<EnemyObject*>MakeEnemyList();
 void scene(SDL_Renderer* gRenderer);
-void PlayButtonHandle(LButton& Play,SDL_Event* e, bool& quit_menu, bool& is_playing);
+void PlayButtonHandle(LButton& Play,SDL_Event* e,Mix_Chunk* Click, bool& quit_menu, bool& is_playing);
 void HelpButtonHandle(LButton& Help, LButton& Back, SDL_Event* e,SDL_Renderer* des,
-                      BaseObject& instrution, bool& quit_menu);
-void BackButtonHandle(LButton& Back, SDL_Event* e, bool& turn_back);
-void ExitButtonHandle(LButton& Exit, SDL_Event* e, bool& quit_menu);
+                      BaseObject& instrution, Mix_Chunk* Click ,bool& quit_menu);
+void BackButtonHandle(LButton& Back, SDL_Event* e,Mix_Chunk* Click ,bool& turn_back);
+void ExitButtonHandle(LButton& Exit, SDL_Event* e,Mix_Chunk* Click, bool& quit_menu);
+void EscButton(LButton& Continue, LButton& Back, SDL_Event* e, SDL_Renderer* des, Mix_Chunk* Click , bool& is_quit);
+void ContinueButtonHandle(LButton& Continue,SDL_Event* e, Mix_Chunk* Click ,bool& isPaused);
 #endif // GAME__H

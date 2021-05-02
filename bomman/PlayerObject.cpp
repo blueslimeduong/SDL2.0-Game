@@ -39,6 +39,13 @@ bool PlayerObject::LoadImg(string path, SDL_Renderer* screen)
     {
         width_frame_ = rect_.w/Frame;
         height_frame_ = rect_.h;
+        for(int i=0; i<Frame; i++)
+        {
+            frame_clips_[i].x = i*width_frame_;
+            frame_clips_[i].y = 0;
+            frame_clips_[i].w = width_frame_;
+            frame_clips_[i].h = height_frame_;
+        }
     }
 }
 SDL_Rect PlayerObject::GetRectFrame()
@@ -49,19 +56,6 @@ SDL_Rect PlayerObject::GetRectFrame()
     rect.h = height_frame_;
     rect.w = width_frame_;
     return rect;
-}
-void PlayerObject:: set_clips()
-{
-    if(width_frame_ > 0 && height_frame_ > 0)
-    {
-        for(int i=0; i<Frame; i++)
-        {
-            frame_clips_[i].x = i*width_frame_;
-            frame_clips_[i].y = 0;
-            frame_clips_[i].w = width_frame_;
-            frame_clips_[i].h = height_frame_;
-        }
-    }
 }
 void PlayerObject::Show(SDL_Renderer* des)
 {
@@ -204,7 +198,7 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen, Mix
         }
     }
 }
-void PlayerObject::HandleBullet(SDL_Renderer* des, Map &map_data)
+void PlayerObject::HandleBullet(SDL_Renderer* des, Map &map_data, Mix_Chunk* Crate)
 {
     for(int i=0; i < p_bullet_list_.size(); i++)
     {
@@ -213,7 +207,7 @@ void PlayerObject::HandleBullet(SDL_Renderer* des, Map &map_data)
         {
             if(p_bullet->get_is_move()==true)
             {
-                p_bullet->HandleMove(map_data);
+                p_bullet->HandleMove(map_data,Crate);
                 p_bullet->Render(des);
             }
             else
@@ -228,7 +222,7 @@ void PlayerObject::HandleBullet(SDL_Renderer* des, Map &map_data)
         }
     }
 }
-void PlayerObject::DoPlayer(Map& map_data)
+void PlayerObject::DoPlayer(Map& map_data, Mix_Chunk* Pick)
 {
     x_val_ = 0;
     y_val_ = 0;
@@ -249,10 +243,10 @@ void PlayerObject::DoPlayer(Map& map_data)
     {
         y_val_ += player_speed_;
     }
-    CheckToMap(map_data);
+    CheckToMap(map_data, Pick);
 }
 
-void PlayerObject:: CheckToMap(Map& map_data)
+void PlayerObject:: CheckToMap(Map& map_data, Mix_Chunk* Pick)
 {
     int x1=0;
     int x2=0;
@@ -277,6 +271,7 @@ void PlayerObject:: CheckToMap(Map& map_data)
             int val2 =  map_data.tile[y2][x2];
             if(val1==SPEED_TILE||val2==SPEED_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseSpeed();
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
@@ -284,12 +279,14 @@ void PlayerObject:: CheckToMap(Map& map_data)
             }
             else if(val1==BULLET_TILE||val2==BULLET_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseBullet();
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
             }
              else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 RefillLifePoint();
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
@@ -311,18 +308,21 @@ void PlayerObject:: CheckToMap(Map& map_data)
             int val2 = map_data.tile[y2][x1];
             if (val1==SPEED_TILE||val2==SPEED_TILE)
             {
+                 Mix_PlayChannel(-1,Pick,0);
                  IncreaseSpeed();
                  map_data.tile[y1][x1] = 0;
                  map_data.tile[y2][x1] = 0;
             }
             else if (val1==BULLET_TILE||val2==BULLET_TILE)
             {
+                 Mix_PlayChannel(-1,Pick,0);
                  IncreaseBullet();
                  map_data.tile[y1][x1] = 0;
                  map_data.tile[y2][x1] = 0;
             }
             else if (val1==LIFE_TILE||val2==LIFE_TILE)
             {
+                 Mix_PlayChannel(-1,Pick,0);
                  RefillLifePoint();
                  map_data.tile[y1][x1] = 0;
                  map_data.tile[y2][x1] = 0;
@@ -355,23 +355,26 @@ void PlayerObject:: CheckToMap(Map& map_data)
             int val2 = map_data.tile[y2][x2];
             if(val1==SPEED_TILE||val2==SPEED_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseSpeed();
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
             }
             else if(val1==BULLET_TILE||val2==BULLET_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseBullet();
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
             }
             else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 RefillLifePoint();
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
             }
-              else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
+            else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
             {
                 level_up = true;
             }
@@ -388,18 +391,21 @@ void PlayerObject:: CheckToMap(Map& map_data)
             int val2 = map_data.tile[y1][x2];
             if(val1==SPEED_TILE||val2==SPEED_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseSpeed();
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
             }
             else if(val1==BULLET_TILE||val2==BULLET_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 IncreaseBullet();
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
             }
             else if(val1==LIFE_TILE||val2==LIFE_TILE)
             {
+                Mix_PlayChannel(-1,Pick,0);
                 RefillLifePoint();
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
@@ -475,8 +481,11 @@ void PlayerObject::RefillLifePoint()
     }
     return;
 }
-void PlayerObject::respawn()
+void PlayerObject::respawn(Mix_Chunk* Die)
 {
+    Mix_PauseMusic();
+    Mix_PlayChannel(-1,Die,0);
+    SDL_Delay(2500);
     life_point_--;
     SetRect(0,0);
     x_pos_ = SPAWN_X;
@@ -484,6 +493,6 @@ void PlayerObject::respawn()
     x_val_ = 0;
     y_val_ = 0;
     status_ = WALK_DOWN;
-    SDL_Delay(100);
+    Mix_ResumeMusic();
     return;
 }

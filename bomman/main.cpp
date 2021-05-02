@@ -10,10 +10,16 @@
 #include "Game.h"
 //
 using namespace std;
-int dem = 0;
+
 TTF_Font* font_time = NULL;
 Mix_Chunk* gFireball = NULL;
 Mix_Chunk* gExplosion = NULL;
+Mix_Chunk* gClick = NULL;
+Mix_Chunk* gCrate = NULL;
+Mix_Chunk* gPickup = NULL;
+Mix_Chunk* gDie = NULL;
+Mix_Music* gMenuMusic = NULL;
+Mix_Music* gIngameMusic = NULL;
 
 BaseObject g_background;
 BaseObject g_menugame;
@@ -23,6 +29,7 @@ LButton PlayButton(BUTTON_X,PLAY_BUTTON_Y);
 LButton HelpButton(BUTTON_X,HELP_BUTTON_Y);
 LButton ExitButton(BUTTON_X,EXIT_BUTTON_Y);
 LButton BackButton(BUTTON_X,BACK_BUTTON_Y);
+LButton ContinueButton(BUTTON_X,CONTINUE_BUTTON_Y);
 
 bool InitData()
 {
@@ -79,10 +86,14 @@ bool InitData()
         else
         {
             gFireball = Mix_LoadWAV("sound/Fireball+3.wav");
-            Mix_VolumeChunk(gFireball,30);
             gExplosion = Mix_LoadWAV("sound/Explosion+1.wav");
-
-            if(gFireball==NULL||gExplosion==NULL)
+            gClick = Mix_LoadWAV("sound/button.wav");
+            gCrate = Mix_LoadWAV("sound/crate.wav");
+            gPickup = Mix_LoadWAV("sound/pickup.wav");
+            gDie = Mix_LoadWAV("sound/die.wav");
+            gMenuMusic = Mix_LoadMUS("sound/Unravel.mp3");
+            gIngameMusic = Mix_LoadMUS("sound/battle.mp3");
+            if(gFireball==NULL||gExplosion==NULL||gClick==NULL||gPickup==NULL||gDie==NULL||gMenuMusic==NULL||gIngameMusic==NULL||gCrate==NULL)
             {
                 success = false;
             }
@@ -117,6 +128,10 @@ bool LoadPic()
     {
         return false;
     }
+    if(!ContinueButton.LoadImg("img/menu/continue_button.png",g_screen))
+    {
+        return false;
+    }
     return true;
 }
 void close()
@@ -132,7 +147,14 @@ void close()
     gFireball = NULL;
     Mix_FreeChunk(gExplosion);
     gExplosion = NULL;
-
+    Mix_FreeChunk(gClick);
+    gClick = NULL;
+    Mix_FreeChunk(gCrate);
+    gCrate = NULL;
+    Mix_FreeMusic(gMenuMusic);
+    gMenuMusic = NULL;
+    Mix_FreeMusic(gIngameMusic);
+    gIngameMusic = NULL;
     SDL_DestroyRenderer(g_screen);
     g_screen = NULL;
 
@@ -158,7 +180,6 @@ vector<EnemyObject*>MakeEnemyList()
         if(p_enemy!=NULL)
         {
             p_enemy->LoadImg("img/enemy/static_enemy.png",g_screen);
-            p_enemy->set_clips();
             p_enemy->set_type_move(EnemyObject::STATIC_ENEMY);
             p_enemy->set_x_pos(160 + i*128);
             p_enemy->set_y_pos(320);
@@ -179,9 +200,8 @@ vector<EnemyObject*>MakeEnemyList()
             if(p_enemy!=NULL)
             {
                 p_enemy->LoadImg("img/enemy/enemy_down.png",g_screen);
-                p_enemy->set_clips();
                 p_enemy->set_type_move(EnemyObject::MOVING_ENEMY);
-//                p_enemy->set_input_type_();
+                p_enemy->set_input_type_();
                 p_enemy->set_x_pos(224 + i*128);
                 p_enemy->set_y_pos(224 + j*160);
 
@@ -194,9 +214,9 @@ vector<EnemyObject*>MakeEnemyList()
 
 int main(int argc, char* argv[])
 {
-    ImpTimer fps_timer;
     srand(time(0));
-
+    ImpTimer TimeGame;
+    ImpTimer fps_timer;
     if(InitData()==false)
     {
         cout << "INITDATA False" << endl;
@@ -207,207 +227,231 @@ int main(int argc, char* argv[])
         cout << "LoadBackGround False" << endl;
         return -1;
     }
+
+    bool quit_game = false;
     bool quit_menu = false;
     bool is_quit = true;
-    while(!quit_menu)
-    {
-         while(SDL_PollEvent(&g_event)!=0)
+    while(!quit_game){
+        Mix_PlayMusic(gMenuMusic,-1);
+        TimeGame.start();
+        while(!quit_menu)
         {
-            if(g_event.type == SDL_QUIT)
+            TimeGame.paused();
+             while(SDL_PollEvent(&g_event)!=0)
             {
-                quit_menu = true;
+                if(g_event.type == SDL_QUIT)
+                {
+                    quit_game = true;
+                }
+                PlayButtonHandle(PlayButton,&g_event,gClick,quit_menu,is_quit);
+                HelpButtonHandle(HelpButton,BackButton,&g_event,g_screen,g_instruction,gClick,quit_menu);
+                ExitButtonHandle(ExitButton,&g_event,gClick,quit_game);
+                if(quit_game)
+                {
+                    quit_menu = true;
+                }
             }
-            PlayButtonHandle(PlayButton,&g_event,quit_menu,is_quit);
-            HelpButtonHandle(HelpButton,BackButton,&g_event,g_screen,g_instruction,quit_menu);
-            ExitButtonHandle(ExitButton,&g_event,quit_menu);
+
+            SDL_SetRenderDrawColor(g_screen,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
+            SDL_RenderClear(g_screen);
+            g_menugame.Render(g_screen,0);
+
+            PlayButton.render(g_screen);
+            HelpButton.render(g_screen);
+            ExitButton.render(g_screen);
+            SDL_RenderPresent(g_screen);
         }
 
-        SDL_SetRenderDrawColor(g_screen,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
-        SDL_RenderClear(g_screen);
-        g_menugame.Render(g_screen,0);
 
-        PlayButton.render(g_screen);
-        HelpButton.render(g_screen);
-        ExitButton.render(g_screen);
-        SDL_RenderPresent(g_screen);
-    }
+        GameMap game_map;
+        game_map.LoadMap("map//map.txt");
+        game_map.LoadTiles(g_screen);
+
+        PlayerObject p_player;
+        p_player.LoadImg("img/player/player_down2.png",g_screen);
 
 
-    GameMap game_map;
-    game_map.LoadMap("map//map.txt");
-    game_map.LoadTiles(g_screen);
+        vector<EnemyObject*> enemies_list = MakeEnemyList();
 
-    PlayerObject p_player;
-    p_player.LoadImg("img/player/player_down2.png",g_screen);
-    p_player.set_clips();
+        // Text
+        TextObject time_game;
+        time_game.SetColor(TextObject::WHITE_TEXT);
+        TextObject score_game;
+        score_game.SetColor(TextObject::WHITE_TEXT);
+        unsigned int score_val = 0;
+        TextObject life_point_game;
+        life_point_game.SetColor(TextObject::WHITE_TEXT);
 
-    vector<EnemyObject*> enemies_list = MakeEnemyList();
-
-    TextObject time_game;
-    time_game.SetColor(TextObject::WHITE_TEXT);
-    TextObject score_game;
-    score_game.SetColor(TextObject::WHITE_TEXT);
-    unsigned int score_val = 0;
-    TextObject life_point_game;
-    life_point_game.SetColor(TextObject::WHITE_TEXT);
-
-
-    while(!is_quit)
-    {
-        fps_timer.start();
-        while(SDL_PollEvent(&g_event)!=0)
+        Mix_PlayMusic(gIngameMusic,-1);
+        Mix_VolumeMusic(90);
+        TimeGame.unpaused();
+        while(!is_quit)
         {
-            if(g_event.type == SDL_QUIT)
+
+            fps_timer.start();
+            while(SDL_PollEvent(&g_event)!=0)
+            {
+                if(g_event.type == SDL_QUIT)
+                {
+                    is_quit = true;
+                }
+                if(g_event.type == SDL_KEYDOWN)
+                {
+                    if(g_event.key.keysym.sym==SDLK_ESCAPE)
+                    {
+                        TimeGame.paused();
+                        EscButton(ContinueButton,BackButton,&g_event,g_screen,gClick,is_quit);
+                    }
+                }
+                p_player.HandleInputAction(g_event,g_screen,gFireball);
+            }
+            TimeGame.unpaused();
+            SDL_SetRenderDrawColor(g_screen,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
+            SDL_RenderClear(g_screen);
+
+            g_background.Render(g_screen, NULL);
+            game_map.DrawMap(g_screen);
+
+            Map map_data = game_map.getMap();
+
+            p_player.HandleBullet(g_screen,map_data,gCrate);
+            p_player.DoPlayer(map_data,gPickup);
+            p_player.Show(g_screen);
+
+            game_map.UpdateMap(map_data);
+
+            for(int i=0; i<enemies_list.size(); i++)
+            {
+                EnemyObject* p_enemy = enemies_list[i];
+                if(p_enemy!=NULL)
+                {
+
+                    p_enemy->DoEnemy(map_data);
+                    p_enemy->MakeBullet(g_screen,map_data);
+                    p_enemy->Show(g_screen);
+
+                    //Check Collision giua enemy va bullet enemy voi player
+                    bool isCol1 = false, isCol2= false;
+                    SDL_Rect rect_player = p_player.GetRectFrame();
+
+                    vector<BulletObject*> EBullet_list = p_enemy->get_bullet_list();
+                    for(int j=0; j<EBullet_list.size(); j++)
+                    {
+                        BulletObject* p_Ebullet = EBullet_list[j];
+                        if(p_Ebullet!=NULL)
+                        {
+                            isCol1 = checkCollision(p_Ebullet->GetRect(),rect_player);
+                            if(isCol1)
+                            {
+                                //p_enemy->RemoveBullet(j);
+                                p_Ebullet->set_is_move(false);
+
+                                break;
+                            }
+                        }
+                    }
+                    isCol2 = checkCollision(p_enemy->GetRectFrame(),p_player.GetRectFrame());
+
+                    if(isCol1||isCol2)
+                    {
+                        p_player.respawn(gDie);
+                        if(p_player.get_life_point()<=0)
+                        is_quit = true;
+                    }
+                }
+            }
+
+            vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
+            for(int i=0; i<bullet_arr.size(); i++)
+            {
+                BulletObject* p_bullet = bullet_arr[i];
+                if(p_bullet!=NULL)
+                {
+
+                    for(int j=0; j<enemies_list.size(); j++)
+                    {
+                        EnemyObject* p_enemy = enemies_list[j];
+                        if(p_enemy!=NULL)
+                        {
+                            SDL_Rect jRect = p_enemy->GetRectFrame();
+                            SDL_Rect iRect = p_bullet->GetRect();
+                            bool isCol = checkCollision(jRect,iRect);
+                            if(isCol)
+                            {
+                                score_val += 10;
+                                Mix_PlayChannel(-1,gExplosion,0);
+                                p_player.RemoveBullet(i);
+                                p_enemy->Free();
+                                enemies_list.erase(enemies_list.begin() + j);
+                            }
+                        }
+                    }
+                }
+            }
+            // Show Text
+            string str_time = "Time: ";
+//            Uint32 time_val = SDL_GetTicks()/1000;
+            Uint32 time_val = TimeGame.get_ticks()/1000;
+            Uint32 val_time = 300 - time_val;
+            if(val_time<=0)
             {
                 is_quit = true;
             }
-            p_player.HandleInputAction(g_event,g_screen,gFireball);
+            else
+            {
+                string str_val = to_string(val_time);
+                str_time += str_val;
+
+                time_game.SetText(str_time);
+                time_game.LoadFromRenderText(font_time,g_screen);
+                time_game.RenderText(g_screen,SCREEN_WIDTH - 150,20);
+            }
+
+            string val_str_score = to_string(score_val);
+            string strScore = "Score: " + val_str_score;
+            score_game.SetText(strScore);
+            score_game.LoadFromRenderText(font_time,g_screen);
+            score_game.RenderText(g_screen,SCREEN_WIDTH - 500, 20);
+
+            string lp_str_val = to_string(p_player.get_life_point());
+            string strLP = "x" + lp_str_val;
+            life_point_game.SetText(strLP);
+            life_point_game.LoadFromRenderText(font_time,g_screen);
+            life_point_game.RenderText(g_screen,130,20);
+
+            SDL_RenderPresent(g_screen);
+        // Chinh FPS
+            int real_imp_time = fps_timer.get_ticks();
+            int time_per_frame = 1000/FRAME_PER_SECOND; // mili sec
+
+            if(real_imp_time<time_per_frame)
+            {
+                int delay_time = time_per_frame - real_imp_time;
+                SDL_Delay(delay_time);
+            }
+
+          // EndGame
+            if(p_player.is_levelup()) is_quit = true;
+            if(is_quit)
+            {
+                quit_menu = false;
+            }
         }
-
-        SDL_SetRenderDrawColor(g_screen,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
-        SDL_RenderClear(g_screen);
-
-        g_background.Render(g_screen, NULL);
-        game_map.DrawMap(g_screen);
-
-        Map map_data = game_map.getMap();
-
-        p_player.HandleBullet(g_screen,map_data);
-        p_player.DoPlayer(map_data);
-        p_player.Show(g_screen);
-
-        game_map.UpdateMap(map_data);
-
-        for(int i=0; i<enemies_list.size(); i++)
+        //Giai phong bo nho
+        for(int i=0; i< enemies_list.size(); i++)
         {
             EnemyObject* p_enemy = enemies_list[i];
             if(p_enemy!=NULL)
             {
-
-                p_enemy->DoEnemy(map_data);
-                p_enemy->MakeBullet(g_screen,map_data);
-                p_enemy->Show(g_screen);
-
-                //Check Collision giua enemy va bullet enemy voi player
-                bool isCol1 = false, isCol2= false;
-                SDL_Rect rect_player = p_player.GetRectFrame();
-
-                vector<BulletObject*> EBullet_list = p_enemy->get_bullet_list();
-                for(int j=0; j<EBullet_list.size(); j++)
-                {
-                    BulletObject* p_Ebullet = EBullet_list[j];
-                    if(p_Ebullet!=NULL)
-                    {
-                        isCol1 = checkCollision(p_Ebullet->GetRect(),rect_player);
-                        if(isCol1)
-                        {
-                            //p_enemy->RemoveBullet(j);
-                            p_Ebullet->set_is_move(false);
-
-                            break;
-                        }
-                    }
-                }
-                isCol2 = checkCollision(p_enemy->GetRectFrame(),p_player.GetRectFrame());
-
-                if(isCol1||isCol2)
-                {
-//                    if(MessageBox(NULL,L,MB_OK | MB_ICONSTOP)==IDOK)
-//                    {
-//                        p_enemy->Free();
-//                        close();
-//                        SDL_Quit();
-//                        return;
-//                    }
-                    p_player.respawn();
-                    if(p_player.get_life_point()<=0)
-                    cout << "DIE" << dem++ <<endl;
-                }
+                p_enemy->Free();
+                p_enemy = NULL;
             }
         }
-//        EnemyCollision(p_player,enemies_list,score_val,gExplosion);
-
-        vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
-        for(int i=0; i<bullet_arr.size(); i++)
-        {
-            BulletObject* p_bullet = bullet_arr[i];
-            if(p_bullet!=NULL)
-            {
-
-                for(int j=0; j<enemies_list.size(); j++)
-                {
-                    EnemyObject* p_enemy = enemies_list[j];
-                    if(p_enemy!=NULL)
-                    {
-                        SDL_Rect jRect = p_enemy->GetRectFrame();
-                        SDL_Rect iRect = p_bullet->GetRect();
-                        bool isCol = checkCollision(jRect,iRect);
-                        if(isCol)
-                        {
-                            score_val += 10;
-                            Mix_PlayChannel(-1,gExplosion,0);
-                            p_player.RemoveBullet(i);
-                            p_enemy->Free();
-                            enemies_list.erase(enemies_list.begin() + j);
-                        }
-                    }
-                }
-            }
-        }
-        // Show Text
-        string str_time = "Time: ";
-        Uint32 time_val = SDL_GetTicks()/1000;
-        Uint32 val_time = 300 - time_val;
-        if(val_time<=0)
-        {
-            is_quit = true;
-        }
-        else
-        {
-            string str_val = to_string(val_time);
-            str_time += str_val;
-
-            time_game.SetText(str_time);
-            time_game.LoadFromRenderText(font_time,g_screen);
-            time_game.RenderText(g_screen,SCREEN_WIDTH - 150,20);
-        }
-
-        string val_str_score = to_string(score_val);
-        string strScore = "Score: " + val_str_score;
-        score_game.SetText(strScore);
-        score_game.LoadFromRenderText(font_time,g_screen);
-        score_game.RenderText(g_screen,SCREEN_WIDTH - 500, 20);
-
-        string lp_str_val = to_string(p_player.get_life_point());
-        string strLP = "x" + lp_str_val;
-        life_point_game.SetText(strLP);
-        life_point_game.LoadFromRenderText(font_time,g_screen);
-        life_point_game.RenderText(g_screen,130,20);
-
-        SDL_RenderPresent(g_screen);
-
-        int real_imp_time = fps_timer.get_ticks();
-        int time_per_frame = 1000/FRAME_PER_SECOND; // mili sec
-
-        if(real_imp_time<time_per_frame)
-        {
-            int delay_time = time_per_frame - real_imp_time;
-            SDL_Delay(delay_time);
-        }
-        if(p_player.is_levelup()) is_quit = true;
+        enemies_list.clear();
     }
 
     //giai phong bo nho
-    for(int i=0; i< enemies_list.size(); i++)
-    {
-        EnemyObject* p_enemy = enemies_list[i];
-        if(p_enemy!=NULL)
-        {
-            p_enemy->Free();
-            p_enemy = NULL;
-        }
-    }
-    enemies_list.clear();
+
     close();
     return 0;
 }

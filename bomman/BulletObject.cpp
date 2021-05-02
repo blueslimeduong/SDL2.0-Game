@@ -14,7 +14,7 @@ BulletObject::~BulletObject()
 
 }
 
-void BulletObject::HandleMove(Map &map_data)
+void BulletObject::HandleMove(Map &map_data, Mix_Chunk* Crate)
 {
     if(bullet_dir_==DIR_RIGHT)
     {
@@ -32,9 +32,9 @@ void BulletObject::HandleMove(Map &map_data)
     {
         rect_.y += y_val_;
     }
-    CheckToMap(map_data);
+    CheckToMap(map_data,Crate);
 }
-void BulletObject::CheckToMap(Map &map_data)
+void BulletObject::CheckToMap(Map &map_data, Mix_Chunk* Crate)
 {
     int x = 0;
     int y = 0;
@@ -57,6 +57,7 @@ void BulletObject::CheckToMap(Map &map_data)
 
     if(map_data.tile[y][x]>=BREAKABLE_TILE && map_data.tile[y][x]<LIFE_TILE)
     {
+        Mix_PlayChannel(-1,Crate,0);
         ChangeBrokenBlock(map_data, x, y);
         is_move_ = false;
     }

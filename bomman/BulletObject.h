@@ -28,8 +28,8 @@ public:
 
     void set_bullet_dir(const unsigned int& bulletDir) {bullet_dir_ = bulletDir;}
     int get_bullet_dir(){return bullet_dir_;}
-    void HandleMove(Map &map_data);
-    void CheckToMap(Map &map_data);
+    void HandleMove(Map &map_data, Mix_Chunk* Crate = NULL);
+    void CheckToMap(Map &map_data,Mix_Chunk* Crate = NULL);
     void ChangeBrokenBlock(Map& map_data, const int& x, const int& y);
 private:
     int x_val_;

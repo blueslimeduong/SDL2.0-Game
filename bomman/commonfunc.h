@@ -43,7 +43,7 @@ const int PLAY_BUTTON_Y = 235;
 const int HELP_BUTTON_Y = 320;
 const int EXIT_BUTTON_Y = 410;
 const int BACK_BUTTON_Y = 510;
-
+const int CONTINUE_BUTTON_Y = 350;
 
 #define MAX_MAP_X 30
 #define MAX_MAP_Y 20

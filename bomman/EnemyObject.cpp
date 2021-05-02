@@ -29,6 +29,13 @@ bool EnemyObject::LoadImg(string path, SDL_Renderer* screen)
     {
         width_frame_ = rect_.w/EFrame;
         height_frame_ = rect_.h;
+        for(int i=0; i<EFrame; i++)
+        {
+            frame_clips_[i].x = i*width_frame_;
+            frame_clips_[i].y = 0;
+            frame_clips_[i].w = width_frame_;
+            frame_clips_[i].h = height_frame_;
+        }
     }
 }
 SDL_Rect EnemyObject::GetRectFrame()
@@ -188,14 +195,7 @@ void EnemyObject::CheckToMap(Map& map_data)
     }
     x_pos_ += x_val_;
     y_pos_ += y_val_;
-//    if(x_pos_<0)//check later
-//    {
-//        x_pos_ = 0;
-//    }
-//    else if(x_pos_ + width_frame_ > map_data.max_x_ )//check later
-//    {
-//        x_pos_ = map_data.max_x_ - width_frame_ - 1;
-//    }
+
 }
 void EnemyObject::change_dir_move()
 {
@@ -301,7 +301,7 @@ void EnemyObject::InitBullet(BulletObject* p_bullet, SDL_Renderer* screen)
 {
     if(p_bullet!=NULL)
     {
-        bool ret = p_bullet->LoadImg("img//bullet1.png",screen);
+        bool ret = p_bullet->LoadImg("img//bullet2.png",screen);
         p_bullet->set_is_move(true);
         p_bullet->set_bullet_dir(BulletObject::DIR_DOWN);
         p_bullet->SetRect(rect_.x + width_frame_*0.25, rect_.y + height_frame_);

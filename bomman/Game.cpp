@@ -51,13 +51,14 @@ bool PlayerCollision(PlayerObject &p_player,EnemyObject* p_enemy)
         }
     }
 }
-void PlayButtonHandle(LButton& Play,SDL_Event* e, bool& quit_menu, bool& is_playing)
+void PlayButtonHandle(LButton& Play,SDL_Event* e, Mix_Chunk* Click ,bool& quit_menu, bool& is_playing)
 {
     Play.handleEvent(e);
     if(Play.IsInside())
     {
         if(e->type == SDL_MOUSEBUTTONDOWN)
         {
+            Mix_PlayChannel(-1,Click,0);
             quit_menu = true;
             is_playing = false;
         }
@@ -65,13 +66,14 @@ void PlayButtonHandle(LButton& Play,SDL_Event* e, bool& quit_menu, bool& is_play
 
 }
 void HelpButtonHandle(LButton& Help, LButton& Back, SDL_Event* e, SDL_Renderer* des,
-                      BaseObject& instrution, bool& quit_menu)
+                      BaseObject& instrution,Mix_Chunk* Click , bool& quit_menu)
 {
     Help.handleEvent(e);
     if(Help.IsInside())
     {
         if(e->type == SDL_MOUSEBUTTONDOWN)
         {
+            Mix_PlayChannel(-1,Click,0);
             bool turn_back = false;
             while(!turn_back)
             {
@@ -79,9 +81,9 @@ void HelpButtonHandle(LButton& Help, LButton& Back, SDL_Event* e, SDL_Renderer* 
                 {
                     if(e->type == SDL_QUIT)
                     {
-                        quit_menu = true;
+                        turn_back = true;
                     }
-                    BackButtonHandle(Back,e,turn_back);
+                    BackButtonHandle(Back,e,Click,turn_back);
                 }
                 instrution.Render(des,0);
                 Back.render(des);
@@ -90,23 +92,56 @@ void HelpButtonHandle(LButton& Help, LButton& Back, SDL_Event* e, SDL_Renderer* 
         }
     }
 }
-void BackButtonHandle(LButton& Back, SDL_Event* e, bool& turn_back)
+void BackButtonHandle(LButton& Back, SDL_Event* e, Mix_Chunk* Click ,bool& turn_back)
 {
     Back.handleEvent(e);
     if(Back.IsInside())
     {
         if(e->type == SDL_MOUSEBUTTONDOWN)
         {
-           turn_back = true;
+            Mix_PlayChannel(-1,Click,0);
+            turn_back = true;
         }
     }
 }
-void ExitButtonHandle(LButton& Exit, SDL_Event* e, bool& quit_menu)
+void ExitButtonHandle(LButton& Exit, SDL_Event* e, Mix_Chunk* Click , bool& quit_menu)
 {
     Exit.handleEvent(e);
     if(Exit.IsInside()&&e->type==SDL_MOUSEBUTTONDOWN)
     {
+        Mix_PlayChannel(-1,Click,0);
         quit_menu = true;
+    }
+}
+void ContinueButtonHandle(LButton& Continue,SDL_Event* e,Mix_Chunk* Click , bool& isPaused)
+{
+    Continue.handleEvent(e);
+    if(Continue.IsInside()&&e->type==SDL_MOUSEBUTTONDOWN)
+    {
+        Mix_PlayChannel(-1,Click,0);
+        Mix_ResumeMusic();
+        isPaused = true;
+    }
+}
+void EscButton(LButton& Continue, LButton& Back, SDL_Event* e, SDL_Renderer* des,Mix_Chunk* Click , bool& is_quit)
+{
+    bool turn_back = false;
+    Mix_PauseMusic();
+    while(!turn_back)
+    {
+       while(SDL_PollEvent(e)!=0)
+        {
+            if(e->type == SDL_QUIT)
+            {
+                is_quit = true;
+            }
+            ContinueButtonHandle(Continue,e,Click,turn_back);
+            BackButtonHandle(Back,e,Click,is_quit);
+            if(is_quit) turn_back = true;
+        }
+        Continue.render(des);
+        Back.render(des);
+        SDL_RenderPresent(des);
     }
 }
 void scene(SDL_Renderer* gRenderer)
