@@ -23,7 +23,7 @@ PlayerObject::PlayerObject()
     input_type_.up_=0;
 
     maxBullet_ = 2;
-    player_speed_ = 2;
+    player_speed_ = 2.5;
 
     level_up = false;
 }
@@ -410,7 +410,7 @@ void PlayerObject:: CheckToMap(Map& map_data, Mix_Chunk* Pick)
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
             }
-              else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
+            else if(val1==ESCAPE_TILE||val2==ESCAPE_TILE)
             {
                 level_up = true;
             }
@@ -486,7 +486,6 @@ void PlayerObject::respawn(Mix_Chunk* Die)
     Mix_PauseMusic();
     Mix_PlayChannel(-1,Die,0);
     SDL_Delay(2500);
-    life_point_--;
     SetRect(0,0);
     x_pos_ = SPAWN_X;
     y_pos_ = SPAWN_Y;

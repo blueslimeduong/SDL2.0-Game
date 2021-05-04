@@ -16,6 +16,11 @@ public:
         DIR_LEFT = 21,
         DIR_UP = 22,
         DIR_DOWN = 23,
+        DIR_DOWN_LEFT = 24,
+        DIR_DOWN_RIGHT = 25,
+        DIR_UP_LEFT = 26,
+        DIR_UP_RIGHT = 27,
+
     };
 
     void set_x_val(const int& xVal){x_val_ = xVal;}

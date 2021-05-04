@@ -21,7 +21,7 @@ public:
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
     void SetColor(int type);
 
-    void RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip=NULL);
+    void RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip = NULL);
     int GetWidth() const {return width_;}
     int GetHeight() const {return height_;}
 

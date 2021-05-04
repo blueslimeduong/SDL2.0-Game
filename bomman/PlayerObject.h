@@ -50,8 +50,10 @@ public:
     void RefillLifePoint();
 
     SDL_Rect GetRectFrame();
-    void respawn(Mix_Chunk* Die);
+    void respawn(Mix_Chunk* Die=NULL);
+    void die(){life_point_--;}
     bool is_levelup(){return level_up;}
+    bool set_level_up(const bool& lvup){level_up=lvup;}
 private:
     float x_val_;
     float y_val_;

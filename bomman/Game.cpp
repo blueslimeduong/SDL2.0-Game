@@ -1,5 +1,6 @@
 
 #include "Game.h"
+
 void EnemyCollision(PlayerObject &p_player, vector<EnemyObject*> &enemies_list,unsigned int &score_val, Mix_Chunk* gExplosion)
 {
     vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
@@ -30,9 +31,27 @@ void EnemyCollision(PlayerObject &p_player, vector<EnemyObject*> &enemies_list,u
             }
         }
 }
+void BossCollision(PlayerObject &p_player, BossObject &p_boss, Mix_Chunk* gExplosion)
+{
+    vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
+    for(int i=0; i<bullet_arr.size(); i++)
+    {
+        BulletObject* p_bullet = bullet_arr[i];
+        if(p_bullet!=NULL)
+        {
+            bool isCol = checkCollision(p_bullet->GetRect(),p_boss.GetRectFrame());
+            if(isCol)
+            {
+                Mix_PlayChannel(-1,gExplosion,0);
+                p_player.RemoveBullet(i);
+                p_boss.beAttacked();
+            }
+        }
+    }
+}
 bool PlayerCollision(PlayerObject &p_player,EnemyObject* p_enemy)
 {
-    return checkCollision(p_enemy->GetRectFrame(),p_player.GetRectFrame());
+
     SDL_Rect rect_player = p_player.GetRectFrame();
     vector<BulletObject*> EBullet_list = p_enemy->get_bullet_list();
     for(int j=0; j<EBullet_list.size(); j++)
@@ -50,6 +69,31 @@ bool PlayerCollision(PlayerObject &p_player,EnemyObject* p_enemy)
             }
         }
     }
+    return checkCollision(p_enemy->GetRectFrame(),p_player.GetRectFrame());
+}
+
+bool PlayerCollisionBoss(PlayerObject &p_player,BossObject* p_boss)
+{
+
+    SDL_Rect rect_player = p_player.GetRectFrame();
+    vector<BulletObject*> BBullet_list = p_boss->get_bullet_list();
+    for(int j=0; j<BBullet_list.size(); j++)
+    {
+        BulletObject* p_Bbullet = BBullet_list[j];
+        if(p_Bbullet!=NULL)
+        {
+            bool isCol = checkCollision(p_Bbullet->GetRect(),rect_player);
+            if(isCol)
+            {
+
+                p_boss->RemoveBullet(j);
+//                p_Bbullet->set_is_move(false);
+
+                return true;
+            }
+        }
+    }
+    return checkCollision(p_boss->GetRectFrame(),p_player.GetRectFrame());
 }
 void PlayButtonHandle(LButton& Play,SDL_Event* e, Mix_Chunk* Click ,bool& quit_menu, bool& is_playing)
 {
@@ -163,4 +207,80 @@ void scene(SDL_Renderer* gRenderer)
     SDL_RenderPresent(gRenderer);
     SDL_Delay(2000);
     g_scene.Free();
+}
+void BadEnding1(SDL_Renderer* gRenderer)
+{
+    BaseObject g_scene;
+//    SDL_RenderClear(gRenderer);
+//    g_scene.LoadImg("img/scene/bad11.png",gRenderer);
+//    g_scene.Render(gRenderer,NULL);
+//    SDL_RenderPresent(gRenderer);
+//    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/bad12.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/bad13.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/bad14.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/bad15.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/bad16.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/lose1.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(1000);
+    g_scene.Free();
+}
+void BadEnding2(SDL_Renderer* gRenderer)
+{
+    BaseObject g_scene;
+    for(int i=0; i<2; i++)
+    {
+        SDL_RenderClear(gRenderer);
+        g_scene.LoadImg("img/scene/bad21.png",gRenderer);
+        g_scene.Render(gRenderer,NULL);
+        SDL_RenderPresent(gRenderer);
+        SDL_Delay(500);
+        SDL_RenderClear(gRenderer);
+        g_scene.LoadImg("img/scene/bad22.png",gRenderer);
+        g_scene.Render(gRenderer,NULL);
+        SDL_RenderPresent(gRenderer);
+        SDL_Delay(500);
+    }
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/lose1.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(1000);
+    g_scene.Free();
+}
+void DeleteEnemyList(vector<EnemyObject*> &enemies_list)
+{
+    for(int i=0; i< enemies_list.size(); i++)
+                {
+                    EnemyObject* p_enemy = enemies_list[i];
+                    if(p_enemy!=NULL)
+                    {
+                        p_enemy->Free();
+                        p_enemy = NULL;
+                    }
+                }
+    enemies_list.clear();
 }
