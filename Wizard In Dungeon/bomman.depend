@@ -1,0 +1,217 @@
+# depslib dependency file v1.0
+1620210294 source:d:\ltnc\projectgame\bomman\main.cpp
+	<iostream>
+	<ctime>
+	"commonfunc.h"
+	"BaseObject.h"
+	"map.h"
+	"PlayerObject.h"
+	"ImpTimer.h"
+	"EnemyObject.h"
+	"BossObject.h"
+	"TextObject.h"
+	"Game.h"
+
+1620201920 source:d:\ltnc\projectgame\bomman\commonfunc.cpp
+	<iostream>
+	"commonfunc.h"
+
+1620201918 d:\ltnc\projectgame\bomman\commonfunc.h
+	<windows.h>
+	<string>
+	<vector>
+	<iostream>
+	<ctime>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1617636904 source:d:\ltnc\projectgame\bomman\baseobject.cpp
+	<iostream>
+	"BaseObject.h"
+
+1615467970 d:\ltnc\projectgame\bomman\baseobject.h
+	"commonfunc.h"
+
+1619966111 source:d:\ltnc\projectgame\bomman\map.cpp
+	"map.h"
+	<bits/stdc++.h>
+	<fstream>
+
+1619585709 d:\ltnc\projectgame\bomman\map.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1620199669 d:\ltnc\projectgame\bomman\playerobject.h
+	<vector>
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+
+1620198944 source:d:\ltnc\projectgame\bomman\playerobject.cpp
+	"PlayerObject.h"
+
+1615648192 source:d:\ltnc\projectgame\bomman\imptimer.cpp
+	"ImpTimer.h"
+	"commonfunc.h"
+
+1615648192 d:\ltnc\projectgame\bomman\imptimer.h
+
+1619968745 source:d:\ltnc\projectgame\bomman\bulletobject.cpp
+	"BulletObject.h"
+
+1620195976 d:\ltnc\projectgame\bomman\bulletobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"map.h"
+
+1620020725 source:d:\ltnc\projectgame\bomman\enemyobject.cpp
+	"EnemyObject.h"
+
+1619969690 d:\ltnc\projectgame\bomman\enemyobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+
+1619454842 source:d:\ltnc\projectgame\bomman\textobject.cpp
+	"TextObject.h"
+
+1620041248 d:\ltnc\projectgame\bomman\textobject.h
+	"commonfunc.h"
+
+1620201771 source:d:\ltnc\projectgame\bomman\game.cpp
+	"Game.h"
+
+1620201781 d:\ltnc\projectgame\bomman\game.h
+	"commonfunc.h"
+	"EnemyObject.h"
+	"PlayerObject.h"
+	"BulletObject.h"
+	"Button.h"
+	"BossObject.h"
+
+1619853023 source:d:\ltnc\projectgame\bomman\button.cpp
+	"Button.h"
+
+1619852086 d:\ltnc\projectgame\bomman\button.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1620197515 source:d:\ltnc\projectgame\bomman\bossobject.cpp
+	"BossObject.h"
+
+1620198653 d:\ltnc\projectgame\bomman\bossobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+	"EnemyObject.h"
+
+1617636904 source:d:\ltnc\projectgame\wizardindungeon\baseobject.cpp
+	<iostream>
+	"BaseObject.h"
+
+1615467970 d:\ltnc\projectgame\wizardindungeon\baseobject.h
+	"commonfunc.h"
+
+1620201918 d:\ltnc\projectgame\wizardindungeon\commonfunc.h
+	<windows.h>
+	<string>
+	<vector>
+	<iostream>
+	<ctime>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1620197515 source:d:\ltnc\projectgame\wizardindungeon\bossobject.cpp
+	"BossObject.h"
+
+1620198653 d:\ltnc\projectgame\wizardindungeon\bossobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+	"EnemyObject.h"
+
+1620195976 d:\ltnc\projectgame\wizardindungeon\bulletobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"map.h"
+
+1619585709 d:\ltnc\projectgame\wizardindungeon\map.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1619969690 d:\ltnc\projectgame\wizardindungeon\enemyobject.h
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+
+1619968745 source:d:\ltnc\projectgame\wizardindungeon\bulletobject.cpp
+	"BulletObject.h"
+
+1619853023 source:d:\ltnc\projectgame\wizardindungeon\button.cpp
+	"Button.h"
+
+1619852086 d:\ltnc\projectgame\wizardindungeon\button.h
+	"commonfunc.h"
+	"BaseObject.h"
+
+1620201920 source:d:\ltnc\projectgame\wizardindungeon\commonfunc.cpp
+	<iostream>
+	"commonfunc.h"
+
+1620020725 source:d:\ltnc\projectgame\wizardindungeon\enemyobject.cpp
+	"EnemyObject.h"
+
+1620201771 source:d:\ltnc\projectgame\wizardindungeon\game.cpp
+	"Game.h"
+
+1620201781 d:\ltnc\projectgame\wizardindungeon\game.h
+	"commonfunc.h"
+	"EnemyObject.h"
+	"PlayerObject.h"
+	"BulletObject.h"
+	"Button.h"
+	"BossObject.h"
+
+1620199669 d:\ltnc\projectgame\wizardindungeon\playerobject.h
+	<vector>
+	"commonfunc.h"
+	"BaseObject.h"
+	"BulletObject.h"
+
+1615648192 source:d:\ltnc\projectgame\wizardindungeon\imptimer.cpp
+	"ImpTimer.h"
+	"commonfunc.h"
+
+1615648192 d:\ltnc\projectgame\wizardindungeon\imptimer.h
+
+1620210294 source:d:\ltnc\projectgame\wizardindungeon\main.cpp
+	<iostream>
+	<ctime>
+	"commonfunc.h"
+	"BaseObject.h"
+	"map.h"
+	"PlayerObject.h"
+	"ImpTimer.h"
+	"EnemyObject.h"
+	"BossObject.h"
+	"TextObject.h"
+	"Game.h"
+
+1620041248 d:\ltnc\projectgame\wizardindungeon\textobject.h
+	"commonfunc.h"
+
+1619966111 source:d:\ltnc\projectgame\wizardindungeon\map.cpp
+	"map.h"
+	<bits/stdc++.h>
+	<fstream>
+
+1620198944 source:d:\ltnc\projectgame\wizardindungeon\playerobject.cpp
+	"PlayerObject.h"
+
+1619454842 source:d:\ltnc\projectgame\wizardindungeon\textobject.cpp
+	"TextObject.h"
+
