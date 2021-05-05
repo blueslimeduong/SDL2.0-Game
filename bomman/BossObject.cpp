@@ -178,7 +178,7 @@ void BossObject::CheckToMap(Map& map_data)
 
 }
 void BossObject::InitBullet(SDL_Renderer* screen)
-{   for(int i=0; i<3; i++)
+{   for(int i=0; i<5; i++)
     {
         BulletObject* p_bullet = new BulletObject();
         if(p_bullet!=NULL)
@@ -220,8 +220,8 @@ void BossObject::MakeBullet(SDL_Renderer* screen,Map& map_data)
             else
             {
                 p_bullet->Free();
-//                delete p_bullet;
                 bullet_list_.erase(bullet_list_.begin() + i);
+                delete p_bullet;
             }
         }
     }

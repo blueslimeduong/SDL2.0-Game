@@ -16,6 +16,7 @@ BulletObject::~BulletObject()
 
 void BulletObject::HandleMove(Map &map_data, Mix_Chunk* Crate)
 {
+
     if(bullet_dir_==DIR_RIGHT)
     {
         rect_.x += x_val_;
@@ -28,8 +29,28 @@ void BulletObject::HandleMove(Map &map_data, Mix_Chunk* Crate)
     {
         rect_.y -= y_val_;
     }
-    else if(bullet_dir_==DIR_DOWN)
+    else if(bullet_dir_ == DIR_DOWN)
     {
+        rect_.y += y_val_;
+    }
+    else if(bullet_dir_ == DIR_UP_LEFT)
+    {
+        rect_.x -= x_val_;
+        rect_.y -= y_val_;
+    }
+    else if(bullet_dir_ == DIR_UP_RIGHT)
+    {
+        rect_.x += x_val_;
+        rect_.y -= y_val_;
+    }
+    else if(bullet_dir_ == DIR_DOWN_LEFT)
+    {
+        rect_.x -= x_val_;
+        rect_.y += y_val_;
+    }
+    else if(bullet_dir_ == DIR_DOWN_RIGHT)
+    {
+        rect_.x += x_val_;
         rect_.y += y_val_;
     }
     CheckToMap(map_data,Crate);

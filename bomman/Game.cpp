@@ -1,6 +1,50 @@
 
 #include "Game.h"
 
+bool checkCollision(const SDL_Rect &a,const SDL_Rect &b )
+{
+    // The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    //Calculate the sides of rect A
+    leftA = a.x;
+    rightA = a.x + a.w;
+    topA = a.y;
+    bottomA = a.y + a.h;
+
+    //Calculate the sides of rect B
+    leftB = b.x;
+    rightB = b.x + b.w;
+    topB = b.y;
+    bottomB = b.y + b.h;  //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+
+}
+
 void EnemyCollision(PlayerObject &p_player, vector<EnemyObject*> &enemies_list,unsigned int &score_val, Mix_Chunk* gExplosion)
 {
     vector<BulletObject*> bullet_arr = p_player.get_bullet_list();
@@ -188,34 +232,9 @@ void EscButton(LButton& Continue, LButton& Back, SDL_Event* e, SDL_Renderer* des
         SDL_RenderPresent(des);
     }
 }
-void scene(SDL_Renderer* gRenderer)
-{
-    BaseObject g_scene;
-    SDL_RenderClear(gRenderer);
-    g_scene.LoadImg("img//bg1.png",gRenderer);
-    g_scene.Render(gRenderer,NULL);
-    SDL_RenderPresent(gRenderer);
-    SDL_Delay(2000);
-    SDL_RenderClear(gRenderer);
-    g_scene.LoadImg("img//bg2.png",gRenderer);
-    g_scene.Render(gRenderer,NULL);
-    SDL_RenderPresent(gRenderer);
-    SDL_Delay(2000);
-    SDL_RenderClear(gRenderer);
-    g_scene.LoadImg("img//bg3.png",gRenderer);
-    g_scene.Render(gRenderer,NULL);
-    SDL_RenderPresent(gRenderer);
-    SDL_Delay(2000);
-    g_scene.Free();
-}
 void BadEnding1(SDL_Renderer* gRenderer)
 {
     BaseObject g_scene;
-//    SDL_RenderClear(gRenderer);
-//    g_scene.LoadImg("img/scene/bad11.png",gRenderer);
-//    g_scene.Render(gRenderer,NULL);
-//    SDL_RenderPresent(gRenderer);
-//    SDL_Delay(500);
     SDL_RenderClear(gRenderer);
     g_scene.LoadImg("img/scene/bad12.png",gRenderer);
     g_scene.Render(gRenderer,NULL);
@@ -245,7 +264,7 @@ void BadEnding1(SDL_Renderer* gRenderer)
     g_scene.LoadImg("img/scene/lose1.png",gRenderer);
     g_scene.Render(gRenderer,NULL);
     SDL_RenderPresent(gRenderer);
-    SDL_Delay(1000);
+    SDL_Delay(2000);
     g_scene.Free();
 }
 void BadEnding2(SDL_Renderer* gRenderer)
@@ -268,7 +287,58 @@ void BadEnding2(SDL_Renderer* gRenderer)
     g_scene.LoadImg("img/scene/lose1.png",gRenderer);
     g_scene.Render(gRenderer,NULL);
     SDL_RenderPresent(gRenderer);
+    SDL_Delay(2000);
+    g_scene.Free();
+}
+void GoodEnding(SDL_Renderer* gRenderer)
+{
+    BaseObject g_scene;
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/good1.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/good2.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/good3.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/good4.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(500);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/win.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(2000);
+    g_scene.Free();
+}
+void NextLevelScene(SDL_Renderer* gRenderer)
+{
+    BaseObject g_scene;
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/next1.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
     SDL_Delay(1000);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/next2.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(1000);
+    SDL_RenderClear(gRenderer);
+    g_scene.LoadImg("img/scene/next3.png",gRenderer);
+    g_scene.Render(gRenderer,NULL);
+    SDL_RenderPresent(gRenderer);
+    SDL_Delay(1000);
+
     g_scene.Free();
 }
 void DeleteEnemyList(vector<EnemyObject*> &enemies_list)

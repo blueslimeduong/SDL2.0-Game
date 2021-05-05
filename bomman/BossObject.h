@@ -7,7 +7,7 @@
 #include "EnemyObject.h"
 
 const int BFrame = 12;
-const float BOSS_SPEED = 2;
+const float BOSS_SPEED = 2.5;
 const int BOSS_BULLET_SPEED = 6.5;
 const int BOSS_MAX_Y = 544;
 const int BOSS_MIN_Y = 224;

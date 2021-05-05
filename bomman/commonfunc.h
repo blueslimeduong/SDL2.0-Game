@@ -67,5 +67,5 @@ struct Input
     int up_;
     int down_;
 };
-bool checkCollision(const SDL_Rect &a,const SDL_Rect &b );
+
 #endif // COMMONFUNC__H_

@@ -51,7 +51,7 @@ public:
 
     SDL_Rect GetRectFrame();
     void respawn(Mix_Chunk* Die=NULL);
-    void die(){life_point_--;}
+    void next_level();
     bool is_levelup(){return level_up;}
     bool set_level_up(const bool& lvup){level_up=lvup;}
 private:

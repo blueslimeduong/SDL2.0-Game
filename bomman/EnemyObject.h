@@ -27,7 +27,6 @@ public:
     float get_x_pos()const{return x_pos_;}
     float get_y_pos()const{return y_pos_;}
 
-    void set_clips();
     bool LoadImg(string path, SDL_Renderer* screen);
     void Show(SDL_Renderer* des);
     SDL_Rect GetRectFrame();
@@ -53,7 +52,6 @@ private:
     float y_pos_;
     float x_val_;
     float y_val_;
-//    int come_back_time_;
     SDL_Rect frame_clips_[EFrame];
     int width_frame_;
     int height_frame_;

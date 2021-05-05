@@ -23,6 +23,7 @@ Mix_Chunk* gGameOver = NULL;
 Mix_Chunk* gGameClear = NULL;
 Mix_Music* gMenuMusic = NULL;
 Mix_Music* gIngameMusic = NULL;
+Mix_Music* gBossMusic = NULL;
 
 BaseObject g_background;
 BaseObject g_menugame;
@@ -101,8 +102,9 @@ bool InitData()
             gGameOver = Mix_LoadWAV("sound/gameover.wav");
             gMenuMusic = Mix_LoadMUS("sound/Unravel.mp3");
             gIngameMusic = Mix_LoadMUS("sound/battle.mp3");
+            gBossMusic = Mix_LoadMUS("sound/boss_battle.mp3");
             if(gFireball==NULL||gExplosion==NULL||gClick==NULL||gPickup==NULL||gDie==NULL||
-               gGameClear==NULL||gGameOver==NULL||gMenuMusic==NULL||gIngameMusic==NULL||gCrate==NULL)
+               gGameClear==NULL||gGameOver==NULL||gMenuMusic==NULL||gIngameMusic==NULL||gBossMusic==NULL||gCrate==NULL)
             {
                 success = false;
             }
@@ -164,6 +166,8 @@ void close()
     gMenuMusic = NULL;
     Mix_FreeMusic(gIngameMusic);
     gIngameMusic = NULL;
+    Mix_FreeMusic(gBossMusic);
+    gBossMusic = NULL;
     SDL_DestroyRenderer(g_screen);
     g_screen = NULL;
 
@@ -343,7 +347,6 @@ int main(int argc, char* argv[])
                     //Check Collision giua enemy va bullet enemy voi player
                     if(PlayerCollision(p_player,p_enemy))
                     {
-                        p_player.die();
                         p_player.respawn(gDie);
                     }
                 }
@@ -365,6 +368,7 @@ int main(int argc, char* argv[])
                 else
                 {
                     BadEnding2(g_screen);
+                    boss_level = false;
                 }
                 is_quit = true;
             }
@@ -397,7 +401,6 @@ int main(int argc, char* argv[])
                 bossObject.Show(g_screen);
                 if(PlayerCollisionBoss(p_player,&bossObject))
                 {
-                    p_player.die();
                     p_player.respawn(gDie);
                 }
                 BossCollision(p_player,bossObject,gExplosion);
@@ -425,19 +428,25 @@ int main(int argc, char* argv[])
             {
                 p_player.set_level_up(false);
                 DeleteEnemyList(enemies_list);
-                p_player.respawn();
+                NextLevelScene(g_screen);
+                p_player.next_level();
                 TimeGame.start();
+                Mix_PlayMusic(gBossMusic,-1);
+                Mix_VolumeMusic(128);
                 game_map.LoadMap("map//map2.txt");
                 game_map.LoadTiles(g_screen);
                 boss_level = true;
 
             }
+            //Game clear
             if(boss_level && bossObject.get_boss_HP()<=0)
             {
                 is_quit = true;
                 Mix_PauseMusic();
                 Mix_PlayChannel(-1,gGameClear,0);
+                GoodEnding(g_screen);
             }
+            //Bad end
             if(p_player.get_life_point()<=0)
             {
 
@@ -451,12 +460,15 @@ int main(int argc, char* argv[])
                 else
                 {
                     BadEnding2(g_screen);
+
                 }
                 is_quit = true;
             }
             if(is_quit)
             {
                 quit_menu = false;
+                boss_level = false;
+                score_val = 0;
             }
         }
     }

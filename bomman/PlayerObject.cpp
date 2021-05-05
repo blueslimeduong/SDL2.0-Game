@@ -485,7 +485,20 @@ void PlayerObject::respawn(Mix_Chunk* Die)
 {
     Mix_PauseMusic();
     Mix_PlayChannel(-1,Die,0);
+    life_point_--;
     SDL_Delay(2500);
+    SetRect(0,0);
+    x_pos_ = SPAWN_X;
+    y_pos_ = SPAWN_Y;
+    x_val_ = 0;
+    y_val_ = 0;
+    status_ = WALK_DOWN;
+    Mix_ResumeMusic();
+    return;
+}
+void PlayerObject::next_level()
+{
+    Mix_PauseMusic();
     SetRect(0,0);
     x_pos_ = SPAWN_X;
     y_pos_ = SPAWN_Y;
