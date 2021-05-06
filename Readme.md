@@ -1,7 +1,7 @@
 ﻿Trần Minh Dương  - 20021323
 * Folder bomman là quá trình làm game, Wizard In Dungeon là thành quả cuối
 * Video: https://youtu.be/14fKrETxk1Y
-  link dự phòng: https://drive.google.com/file/d/16UtWWIYe_PQfA-P4kUHtchielCw4b1AY/view?usp=sharing
+  (link dự phòng: https://drive.google.com/file/d/16UtWWIYe_PQfA-P4kUHtchielCw4b1AY/view?usp=sharing )
 * Giới thiệu: Trong Wizard In Dungeon, bạn là một phù thủy đang bị lạc trong ngục tối, phải tiêu diệt hết quái vật và tìm lối ra. 
 * Ý tưởng: Khi đang làm Bomberman thì em chuyển hướng sang game này, từ đó em tự nghĩ cốt truyện, bối cảnh.
 * Tính năng: (cụ thể trong video)
